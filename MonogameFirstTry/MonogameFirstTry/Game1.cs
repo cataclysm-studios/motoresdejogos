@@ -11,7 +11,10 @@ namespace MonogameFirstTry
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+        Camera cam;
+        Model cubeModel;
+        Cube[] cubes;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -27,7 +30,12 @@ namespace MonogameFirstTry
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            cam = new Camera();
+            cubes = new Cube[10];
+            for (int i = 0; i < cubes.Length; i++)
+            {
+                cubes[i] = new Cube(new Vector3(-cubes.Length*10 + i*20, 0, 0));
+            }
             base.Initialize();
         }
 
@@ -39,7 +47,11 @@ namespace MonogameFirstTry
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
+            for (int i = 0; i < cubes.Length; i++)
+            {
+                cubes[i].LoadContent(Content);
+            }
             // TODO: use this.Content to load your game content here
         }
 
@@ -63,7 +75,10 @@ namespace MonogameFirstTry
                 Exit();
 
             // TODO: Add your update logic here
-
+            for (int i = 0; i < cubes.Length; i++)
+            {
+                cubes[i].UpdateCube(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -76,8 +91,13 @@ namespace MonogameFirstTry
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            for (int i = 0; i < cubes.Length; i++)
+            {
+                cubes[i].DrawCube(cam.View(),cam.Projection());
+            }
             base.Draw(gameTime);
         }
+
+        
     }
 }
