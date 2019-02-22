@@ -36,7 +36,7 @@ namespace MonogameFirstTry
 
         public void UpdateCube(GameTime gameTime)
         {
-            //world = Matrix.CreateRotationY((float)gameTime.TotalGameTime.TotalSeconds);
+            world *= Matrix.CreateRotationY(0.005f);
         }
 
         public void LoadContent(ContentManager content)
