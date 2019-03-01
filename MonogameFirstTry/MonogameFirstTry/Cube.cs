@@ -41,7 +41,7 @@ namespace MonogameFirstTry
 
         public void LoadContent(ContentManager content)
         {
-            model = content.Load<Model>("Space_Invader");
+            model = content.Load<Model>("Models/Ship1/p1_saucer");
         }
     }
 }
