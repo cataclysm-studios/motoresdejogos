@@ -11,12 +11,18 @@ namespace MonogameFirstTry
 {
     class Cube
     {
+        private float timer = 3;
+        private const float TIMER = 3;
+
         private Model model;
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
+        private Message positionMessage;
 
         public Cube(Vector3 pos)
         {
             world = Matrix.CreateTranslation(pos);
+            positionMessage = new Message(MessageType.Console, world.Translation.ToString());
+            MessageBus.Instance.AddMessage(positionMessage);
         }
 
         public void DrawCube(Matrix view, Matrix projection)
@@ -37,11 +43,19 @@ namespace MonogameFirstTry
         public void UpdateCube(GameTime gameTime)
         {
             //world = Matrix.CreateRotationY((float)gameTime.TotalGameTime.TotalSeconds);
+            world *= Matrix.CreateRotationY(0.005f);
+            /*timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if(timer < 0)
+            {
+                positionMessage.MessageText = world.Translation.ToString();
+                MessageBus.Instance.AddMessage(positionMessage);
+                timer = TIMER;
+            }*/
         }
 
         public void LoadContent(ContentManager content)
         {
-            model = content.Load<Model>("Space_Invader");
+            model = content.Load<Model>("Models/Ship1/p1_saucer");
         }
     }
 }
