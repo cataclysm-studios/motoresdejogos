@@ -11,9 +11,10 @@ namespace MonogameFirstTry
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ShipModel shipModel;
         Camera cam;
         Model cubeModel;
-        Cube[] cubes;
+        Ship[] ships;
 
         public Game1()
         {
@@ -30,13 +31,14 @@ namespace MonogameFirstTry
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            shipModel = new ShipModel();
             cam = new Camera();
-            cubes = new Cube[10];
+            ships = new Ship[10];
             MessageBus.Instance.Initialize();
             ConsoleWriter.Instance.Initialize();
-            for (int i = 0; i < cubes.Length; i++)
+            for (int i = 0; i < ships.Length; i++)
             {
-                cubes[i] = new Cube(new Vector3(-cubes.Length*10 + i*20, 0, 0));
+                ships[i] = new Ship(new Vector3(-ships.Length*10 + i*20, 0, 0));
             }
             base.Initialize();
         }
@@ -49,10 +51,10 @@ namespace MonogameFirstTry
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            for (int i = 0; i < cubes.Length; i++)
+            shipModel.LoadShipModel(Content);
+            for (int i = 0; i < ships.Length; i++)
             {
-                cubes[i].LoadContent(Content);
+                ships[i].LoadModel(shipModel);
             }
             // TODO: use this.Content to load your game content here
         }
@@ -77,9 +79,9 @@ namespace MonogameFirstTry
                 Exit();
 
             // TODO: Add your update logic here
-            for (int i = 0; i < cubes.Length; i++)
+            for (int i = 0; i < ships.Length; i++)
             {
-                cubes[i].UpdateCube(gameTime);
+                ships[i].UpdateCube(gameTime);
             }
             ConsoleWriter.Instance.Update();
             base.Update(gameTime);
@@ -94,9 +96,9 @@ namespace MonogameFirstTry
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            for (int i = 0; i < cubes.Length; i++)
+            for (int i = 0; i < ships.Length; i++)
             {
-                cubes[i].DrawCube(cam.View(),cam.Projection());
+                ships[i].DrawCube(cam.View(),cam.Projection());
             }
             base.Draw(gameTime);
         }
