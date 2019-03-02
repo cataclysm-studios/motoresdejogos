@@ -68,7 +68,7 @@ namespace MonogameFirstTry
         }
         public void MoveForward(GameTime gameTime)
         {
-            position += world.Forward * 5;
+            position += world.Forward * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);
