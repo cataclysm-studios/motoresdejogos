@@ -42,13 +42,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-<<<<<<< HEAD
+
   <PropertyGroup />
-=======
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
->>>>>>> a06ab8e87d57bb7305fad794935c8ea0fe4ca533
+
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="Command.cs" />
