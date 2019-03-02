@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    class ShipModel
+    public class ShipModel
     {
         public Model model;
 

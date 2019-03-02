@@ -42,13 +42,17 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-
   <PropertyGroup />
-
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="ConsoleWriter.cs" />
+    <Compile Include="InputHandler.cs" />
+    <Compile Include="MoveShip.cs" />
+    <Compile Include="MoveShipBackward.cs" />
+    <Compile Include="Replay.cs" />
+    <Compile Include="RotateShip.cs" />
+    <Compile Include="RotateShipLeft.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Message.cs" />

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace MonogameFirstTry
 {
@@ -14,6 +16,8 @@ namespace MonogameFirstTry
         ShipModel shipModel;
         Camera cam;
         Ship[] ships;
+        InputHandler inputHandler = new InputHandler();
+        List<Command> tempCommands = new List<Command>();
 
         public Game1()
         {
@@ -81,6 +85,27 @@ namespace MonogameFirstTry
             for (int i = 0; i < ships.Length; i++)
             {
                 ships[i].UpdateCube(gameTime);
+            }
+            if(inputHandler.HandleInput() != null)
+            {
+                foreach (Command action in inputHandler.HandleInput())
+                {
+                    action.Execute(ships[0], gameTime, inputHandler.usedCommands);
+                }
+                //inputHandler.HandleInput().Execute(ships[0], gameTime);
+            }
+            if(inputHandler.usedCommands.Count > 0)
+            {
+                tempCommands.Clear();
+                foreach (Command action in inputHandler.usedCommands)
+                {
+                    tempCommands.Add(action);
+                    action.Execute(ships[1], gameTime, inputHandler.usedCommands);
+                }
+                foreach (Command usedReplay in tempCommands)
+                {
+                    inputHandler.usedCommands.Remove(usedReplay);
+                }
             }
             ConsoleWriter.Instance.Update();
             base.Update(gameTime);
