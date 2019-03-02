@@ -13,7 +13,6 @@ namespace MonogameFirstTry
         SpriteBatch spriteBatch;
         ShipModel shipModel;
         Camera cam;
-        Model cubeModel;
         Ship[] ships;
 
         public Game1()
