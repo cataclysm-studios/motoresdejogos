@@ -32,6 +32,8 @@ namespace MonogameFirstTry
             // TODO: Add your initialization logic here
             cam = new Camera();
             cubes = new Cube[10];
+            MessageBus.Instance.Initialize();
+            ConsoleWriter.Instance.Initialize();
             for (int i = 0; i < cubes.Length; i++)
             {
                 cubes[i] = new Cube(new Vector3(-cubes.Length*10 + i*20, 0, 0));
@@ -79,6 +81,7 @@ namespace MonogameFirstTry
             {
                 cubes[i].UpdateCube(gameTime);
             }
+            ConsoleWriter.Instance.Update();
             base.Update(gameTime);
         }
 
