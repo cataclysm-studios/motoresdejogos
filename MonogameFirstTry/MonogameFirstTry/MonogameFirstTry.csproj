@@ -38,14 +38,16 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+
+  <PropertyGroup />
+
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="ConsoleWriter.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="Game1.cs" />
