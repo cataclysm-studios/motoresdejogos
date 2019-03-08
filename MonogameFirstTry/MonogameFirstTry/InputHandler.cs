@@ -13,6 +13,8 @@ namespace MonogameFirstTry
         private Command buttonA = new RotateShipLeft();
         private Command buttonS = new MoveShipBackward();
         private Command buttonD = new RotateShipRight();
+        private Command buttonQ = new StrafeLeft();
+        private Command buttonE = new StrafeRight();
         //private Command buttonR = new Replay();
         private Message inputDebugMessage = new Message(MessageType.Console, "");
         private List<Command> commands = new List<Command>();
@@ -67,6 +69,20 @@ namespace MonogameFirstTry
                 commands.Add(buttonD);
                 usedCommands.Add(buttonD);
                 //return buttonD;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                inputDebugMessage.MessageText = "Q";
+                MessageBus.Instance.AddMessage(inputDebugMessage);
+                commands.Add(buttonQ);
+                usedCommands.Add(buttonQ);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                inputDebugMessage.MessageText = "E";
+                MessageBus.Instance.AddMessage(inputDebugMessage);
+                commands.Add(buttonE);
+                usedCommands.Add(buttonE);
             }
             if (commands.Count > 0)
             {
