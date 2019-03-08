@@ -11,6 +11,14 @@ namespace MonogameFirstTry
 {
     public class Ship
     {
+        protected bool shipActive = false;
+
+        public bool ShipActive
+        {
+            get { return shipActive; }
+            set { shipActive = value; }
+        }
+
         private float timer = 3;
         private const float TIMER = 3;
         private ShipModel shipModel;
@@ -38,17 +46,26 @@ namespace MonogameFirstTry
 
         public void DrawCube(Matrix view, Matrix projection)
         {
-            foreach (ModelMesh mesh in shipModel.model.Meshes)
+            if (shipActive)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                foreach (ModelMesh mesh in shipModel.model.Meshes)
                 {
-                    effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
-                }
+                    foreach (BasicEffect effect in mesh.Effects)
+                    {
+                        effect.World = world;
+                        effect.View = view;
+                        effect.Projection = projection;
+                    }
 
-                mesh.Draw();
+                    mesh.Draw();
+                }
             }
+        }
+
+        public void Instantiate(Vector3 position)
+        {
+            shipActive = true;
+            this.position = position;
         }
 
         public void UpdateCube(GameTime gameTime)

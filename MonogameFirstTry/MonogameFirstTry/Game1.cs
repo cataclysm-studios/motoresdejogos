@@ -42,6 +42,10 @@ namespace MonogameFirstTry
             for (int i = 0; i < ships.Length; i++)
             {
                 ships[i] = new Ship(new Vector3(-ships.Length*10 + i*20, 0, 0));
+                if (i == 0)
+                {
+                    ships[i].ShipActive = true;
+                }
             }
             base.Initialize();
         }
