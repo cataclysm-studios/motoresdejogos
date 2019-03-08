@@ -129,7 +129,11 @@ namespace MonogameFirstTry
             // TODO: Add your drawing code here
             for (int i = 0; i < ships.Length; i++)
             {
-                ships[i].DrawShip(cam.View(),cam.Projection());
+                if(cam.frustum.Intersects(ships[i].boundingSphere))
+                {
+                    ships[i].DrawShip(cam.View(), cam.Projection());
+                }
+                
             }
             base.Draw(gameTime);
         }
