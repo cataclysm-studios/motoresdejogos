@@ -48,10 +48,10 @@
     <Compile Include="Command.cs" />
     <Compile Include="ConsoleWriter.cs" />
     <Compile Include="InputHandler.cs" />
-    <Compile Include="MoveShip.cs" />
+    <Compile Include="MoveShipForward.cs" />
     <Compile Include="MoveShipBackward.cs" />
     <Compile Include="Replay.cs" />
-    <Compile Include="RotateShip.cs" />
+    <Compile Include="RotateShipRight.cs" />
     <Compile Include="RotateShipLeft.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="Game1.cs" />

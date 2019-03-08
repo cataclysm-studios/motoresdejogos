@@ -22,6 +22,7 @@ namespace MonogameFirstTry
         public List<Command> HandleInput()
         {
             commands.Clear();
+            //usedCommands.Clear();
             /*if(sentUsedCommands)
             {
                 usedCommands.Clear();
@@ -40,6 +41,7 @@ namespace MonogameFirstTry
                 inputDebugMessage.MessageText = "W";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
                 commands.Add(buttonW);
+                usedCommands.Add(buttonW);
                 //return buttonW;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
@@ -47,6 +49,7 @@ namespace MonogameFirstTry
                 inputDebugMessage.MessageText = "A";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
                 commands.Add(buttonA);
+                usedCommands.Add(buttonA);
                 //return buttonA;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
@@ -54,6 +57,7 @@ namespace MonogameFirstTry
                 inputDebugMessage.MessageText = "S";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
                 commands.Add(buttonS);
+                usedCommands.Add(buttonS);
                 //return buttonS;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
@@ -61,14 +65,13 @@ namespace MonogameFirstTry
                 inputDebugMessage.MessageText = "D";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
                 commands.Add(buttonD);
+                usedCommands.Add(buttonD);
                 //return buttonD;
             }
             if (commands.Count > 0)
             {
-                foreach (Command action in commands)
-                {
-                    usedCommands.Add(action);
-                }
+                inputDebugMessage.MessageText = commands.Count.ToString() + " " + usedCommands.Count.ToString();
+                MessageBus.Instance.AddMessage(inputDebugMessage);
                 return commands;
             }
             else return null;

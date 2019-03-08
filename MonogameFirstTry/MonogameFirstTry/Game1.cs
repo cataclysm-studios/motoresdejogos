@@ -100,7 +100,7 @@ namespace MonogameFirstTry
                 foreach (Command action in inputHandler.usedCommands)
                 {
                     tempCommands.Add(action);
-                    action.Execute(ships[1], gameTime, inputHandler.usedCommands);
+                    //action.Execute(ships[1], gameTime, inputHandler.usedCommands);
                 }
                 foreach (Command usedReplay in tempCommands)
                 {
