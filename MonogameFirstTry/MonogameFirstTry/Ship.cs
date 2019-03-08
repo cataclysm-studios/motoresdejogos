@@ -52,6 +52,7 @@ namespace MonogameFirstTry
                 boundingSphere = BoundingSphere.CreateMerged(this.boundingSphere, m.BoundingSphere);
             }*/
             boundingSphere = shipModel.boundingSphere;
+            boundingSphere.Center = position;
         }
 
         public void isColliding(BoundingSphere otherShip, int ID)
@@ -61,6 +62,7 @@ namespace MonogameFirstTry
                 debugMessage.MessageText = "colidiu com a nave " + ID;
                 MessageBus.Instance.AddMessage(debugMessage);
             }
+            
         }
 
         public void DrawShip(Matrix view, Matrix projection)
