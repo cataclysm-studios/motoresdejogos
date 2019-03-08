@@ -14,7 +14,7 @@ namespace MonogameFirstTry
 
         public Camera()
         {
-            view = Matrix.CreateLookAt(new Vector3(150, 150, 150), new Vector3(0, 0, 0), Vector3.UnitY);
+            view = Matrix.CreateLookAt(new Vector3(200, 200, 200), new Vector3(80, 0, 0), Vector3.UnitY);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 1000f);
         }
 
