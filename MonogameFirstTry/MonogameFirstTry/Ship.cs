@@ -114,7 +114,7 @@ namespace MonogameFirstTry
         }
         public void MoveBackward(GameTime gameTime)
         {
-            position -= world.Forward * 5;
+            position -= world.Forward * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);
@@ -133,6 +133,22 @@ namespace MonogameFirstTry
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             rotationMessage.MessageText = world.Forward.ToString();
             MessageBus.Instance.AddMessage(rotationMessage);
+        }
+        public void StrafeLeft(GameTime gameTime)
+        {
+            position += world.Left * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+            positionMessage.MessageText = world.Translation.ToString();
+            MessageBus.Instance.AddMessage(positionMessage);
+            boundingSphere.Center = position;
+        }
+        public void StrafeRight(GameTime gameTime)
+        {
+            position += world.Right * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+            positionMessage.MessageText = world.Translation.ToString();
+            MessageBus.Instance.AddMessage(positionMessage);
+            boundingSphere.Center = position;
         }
         /*public void ReplayActions(GameTime gameTime, List<Command> commands)
         {
