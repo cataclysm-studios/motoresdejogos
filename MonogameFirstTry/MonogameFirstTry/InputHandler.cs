@@ -70,8 +70,8 @@ namespace MonogameFirstTry
             }
             if (commands.Count > 0)
             {
-                inputDebugMessage.MessageText = commands.Count.ToString() + " " + usedCommands.Count.ToString();
-                MessageBus.Instance.AddMessage(inputDebugMessage);
+                //inputDebugMessage.MessageText = commands.Count.ToString() + " " + usedCommands.Count.ToString();
+               // MessageBus.Instance.AddMessage(inputDebugMessage);
                 return commands;
             }
             else return null;

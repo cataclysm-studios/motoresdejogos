@@ -42,7 +42,7 @@ namespace MonogameFirstTry
             for (int i = 0; i < ships.Length; i++)
             {
                 ships[i] = new Ship(new Vector3(-ships.Length*10 + i*20, 0, 0));
-                if (i == 0)
+                if (i == 0 || i == 1)
                 {
                     ships[i].ShipActive = true;
                 }
@@ -85,10 +85,13 @@ namespace MonogameFirstTry
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            CheckColissions();
+
+
             // TODO: Add your update logic here
             for (int i = 0; i < ships.Length; i++)
             {
-                ships[i].UpdateCube(gameTime);
+                ships[i].UpdateShip(gameTime);
             }
             if(inputHandler.HandleInput() != null)
             {
@@ -126,11 +129,17 @@ namespace MonogameFirstTry
             // TODO: Add your drawing code here
             for (int i = 0; i < ships.Length; i++)
             {
-                ships[i].DrawCube(cam.View(),cam.Projection());
+                ships[i].DrawShip(cam.View(),cam.Projection());
             }
             base.Draw(gameTime);
         }
 
-        
+        public void CheckColissions()
+        {
+            for (int i = 1; i < ships.Length; i++)
+            {
+                ships[0].isColliding(ships[i].boundingSphere, i + 1);
+            }
+        }
     }
 }

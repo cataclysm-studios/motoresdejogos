@@ -11,7 +11,7 @@ namespace MonogameFirstTry
 {
     public class Ship
     {
-        protected bool shipActive = false;
+        protected bool shipActive = true;
 
         public bool ShipActive
         {
@@ -27,14 +27,18 @@ namespace MonogameFirstTry
         private float rotationY;
         private Message positionMessage;
         private Message rotationMessage;
+        private Message debugMessage;
+
+        public BoundingSphere boundingSphere;
 
         public Ship(Vector3 pos)
-        {
+        { 
             position = pos;
             rotationY = 0;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(pos);
             positionMessage = new Message(MessageType.Console, world.Translation.ToString());
             rotationMessage = new Message(MessageType.Console, world.Forward.ToString());
+            debugMessage = new Message(MessageType.Console, "");
             MessageBus.Instance.AddMessage(positionMessage);
             MessageBus.Instance.AddMessage(rotationMessage);
         }
@@ -42,9 +46,24 @@ namespace MonogameFirstTry
         public void LoadModel(ShipModel shipModel)
         {
             this.shipModel = shipModel;
+            /*
+            foreach (ModelMesh m in this.shipModel.model.Meshes)
+            {
+                boundingSphere = BoundingSphere.CreateMerged(this.boundingSphere, m.BoundingSphere);
+            }*/
+            boundingSphere = shipModel.boundingSphere;
         }
 
-        public void DrawCube(Matrix view, Matrix projection)
+        public void isColliding(BoundingSphere otherShip, int ID)
+        {
+            if (boundingSphere.Intersects(otherShip))
+            {
+                debugMessage.MessageText = "colidiu com a nave " + ID;
+                MessageBus.Instance.AddMessage(debugMessage);
+            }
+        }
+
+        public void DrawShip(Matrix view, Matrix projection)
         {
             if (shipActive)
             {
@@ -68,7 +87,7 @@ namespace MonogameFirstTry
             this.position = position;
         }
 
-        public void UpdateCube(GameTime gameTime)
+        public void UpdateShip(GameTime gameTime)
         {
             //world *= Matrix.CreateRotationY(0.005f);
             /*
@@ -89,6 +108,7 @@ namespace MonogameFirstTry
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);
+            boundingSphere.Center = position;
         }
         public void MoveBackward(GameTime gameTime)
         {
@@ -96,6 +116,7 @@ namespace MonogameFirstTry
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);
+            boundingSphere.Center = position;
         }
         public void RotateRight(GameTime gameTime)
         {
