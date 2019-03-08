@@ -14,7 +14,7 @@ namespace MonogameFirstTry
         public override void Execute(Ship ship, GameTime gameTime, List<Command> commands)
         {
             ship.StrafeRight(gameTime);
-            executeDebugMessage.MessageText = ship.ToString() + " executed move forward";
+            executeDebugMessage.MessageText = ship.ToString() + " executed Strafe Right";
             MessageBus.Instance.AddMessage(executeDebugMessage);
         }
     }
