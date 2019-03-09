@@ -14,10 +14,18 @@ namespace MonogameFirstTry
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ShipModel shipModel;
+
         Camera cam;
         Ship[] ships;
         InputHandler inputHandler = new InputHandler();
         List<Command> tempCommands = new List<Command>();
+        // Create Octree
+        float worldSize = Settings.worldSize;
+        Vector3 centerOfWorld = new Vector3(0,0,0);
+        Octree octree;
+        BasicEffect effect;
+
+        Dice dice = new Dice();
 
         const int TOTALSHIPS = 10;
 
@@ -36,21 +44,37 @@ namespace MonogameFirstTry
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            octree = new Octree(centerOfWorld, worldSize * 8 + worldSize);
+            effect = new BasicEffect(graphics.GraphicsDevice);
             shipModel = new ShipModel();
+            DebugShapeRenderer.Initialize(graphics.GraphicsDevice);
             cam = new Camera();
+<<<<<<< HEAD
             ships = new Ship[TOTALSHIPS];
+=======
+            ships = new Ship[50];
+>>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             MessageBus.Instance.Initialize();
             ConsoleWriter.Instance.Initialize();
             SaveManager.Instance.Initialize();
             for (int i = 0; i < ships.Length; i++)
             {
+<<<<<<< HEAD
                 ships[i] = new Ship(new Vector3(-TOTALSHIPS * 15 + i * 40, 0, 0), ("ship " + (i + 1)));
+=======
+                ships[i] = new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)));
+                octree.Add(ships[i]);
+>>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
                 if (i == 0 || i == 1)
                 {
                     ships[i].ShipActive = true;
                 }
             }
+<<<<<<< HEAD
             
+=======
+            octree.Collapse(octree);
+>>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             base.Initialize();
         }
 
@@ -91,9 +115,13 @@ namespace MonogameFirstTry
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            CheckColissions();
-
-
+            //CheckColissions();
+            for (int i = 0; i < ships.Length; i++)
+            {
+                octree.ObjectChanged(ships[i]);
+                ships[i].drawn = false;
+            }
+            
             // TODO: Add your update logic here
             for (int i = 0; i < TOTALSHIPS; i++)
             {
@@ -132,23 +160,36 @@ namespace MonogameFirstTry
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            DebugShapeRenderer.Draw(gameTime, cam.View(), cam.Projection());
+            //DebugShapeRenderer.AddBoundingBox(new BoundingBox(new Vector3(1, 1, 1), new Vector3(10, 10, 10)), Color.Red);
+
+            octree.DrawBoxLines(/*cam.View(), cam.Projection(), graphics.GraphicsDevice, effect*/);
             // TODO: Add your drawing code here
+<<<<<<< HEAD
             for (int i = 0; i < TOTALSHIPS; i++)
+=======
+            /*for (int i = 0; i < ships.Length; i++)
+>>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             {
                 if(cam.frustum.Intersects(ships[i].boundingSphere))
                 {
-                    ships[i].DrawShip(cam.View(), cam.Projection());
+                    ships[i].Draw(cam.View(), cam.Projection());
                 }
                 
-            }
+            }*/
+            octree.ModelsDrawn = 0; // this just resets the models drawn every frame (if you want the statistics)
+            octree.Draw(cam.View(), cam.Projection(), cam.Frustum());
+            //octree.DrawZoneOfDeath(cam.View(), cam.Projection(), graphics.GraphicsDevice,effect);
             base.Draw(gameTime);
         }
+
+        
 
         public void CheckColissions()
         {
             for (int i = 1; i < TOTALSHIPS; i++)
             {
-                ships[0].isColliding(ships[i].boundingSphere, i + 1);
+                ships[0].CheckOctreeCollision(octree.bounds);
             }
         }
     }

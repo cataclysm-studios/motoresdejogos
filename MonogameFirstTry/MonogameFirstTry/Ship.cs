@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    public class Ship
+    public class Ship : Entity
     {
         protected bool shipActive = false;
 
@@ -35,9 +35,16 @@ namespace MonogameFirstTry
 
         public BoundingSphere boundingSphere;
 
+<<<<<<< HEAD
         public Ship(Vector3 pos, string name)
         {
             this.name = name;
+=======
+        
+
+        public Ship(Vector3 pos)
+        { 
+>>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             position = pos;
             rotationY = 0;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(pos);
@@ -58,20 +65,34 @@ namespace MonogameFirstTry
             }*/
             boundingSphere = shipModel.boundingSphere;
             boundingSphere.Center = position;
+            Console.WriteLine("centro: " + boundingSphere.Center);
         }
 
-        public void isColliding(BoundingSphere otherShip, int ID)
+        public override bool CheckCollision(BoundingSphere otherShip)
         {
             if (boundingSphere.Intersects(otherShip))
             {
                 debugMessage.MessageText = "colidiu com a nave " + ID;
                 MessageBus.Instance.AddMessage(debugMessage);
+                return true;
             }
+            return false;
             
         }
 
-        public void DrawShip(Matrix view, Matrix projection)
+        public void CheckOctreeCollision(BoundingBox bounds)
         {
+            if (boundingSphere.Intersects(bounds))
+            {
+                debugMessage.MessageText = "colidiu com a bounds";
+                MessageBus.Instance.AddMessage(debugMessage);
+            }
+        }
+
+        public override void Draw(Matrix view, Matrix projection)
+        {
+            DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
+
             if (shipActive)
             {
                 foreach (ModelMesh mesh in shipModel.model.Meshes)
