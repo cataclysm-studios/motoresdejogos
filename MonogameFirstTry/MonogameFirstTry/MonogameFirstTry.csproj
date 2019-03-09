@@ -58,11 +58,8 @@
     <Compile Include="Replay.cs" />
     <Compile Include="RotateShipRight.cs" />
     <Compile Include="RotateShipLeft.cs" />
-<<<<<<< HEAD
     <Compile Include="SaveManager.cs" />
-=======
     <Compile Include="Settings.cs" />
->>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
     <Compile Include="Ship.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Message.cs" />
@@ -79,11 +76,8 @@
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-<<<<<<< HEAD
       <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-=======
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
->>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

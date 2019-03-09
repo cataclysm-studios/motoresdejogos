@@ -49,32 +49,20 @@ namespace MonogameFirstTry
             shipModel = new ShipModel();
             DebugShapeRenderer.Initialize(graphics.GraphicsDevice);
             cam = new Camera();
-<<<<<<< HEAD
-            ships = new Ship[TOTALSHIPS];
-=======
             ships = new Ship[50];
->>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             MessageBus.Instance.Initialize();
             ConsoleWriter.Instance.Initialize();
             SaveManager.Instance.Initialize();
             for (int i = 0; i < ships.Length; i++)
             {
-<<<<<<< HEAD
-                ships[i] = new Ship(new Vector3(-TOTALSHIPS * 15 + i * 40, 0, 0), ("ship " + (i + 1)));
-=======
-                ships[i] = new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)));
+                ships[i] = new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)),("ship " + (i + 1)));
                 octree.Add(ships[i]);
->>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
                 if (i == 0 || i == 1)
                 {
                     ships[i].ShipActive = true;
                 }
             }
-<<<<<<< HEAD
-            
-=======
             octree.Collapse(octree);
->>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             base.Initialize();
         }
 
@@ -165,11 +153,7 @@ namespace MonogameFirstTry
 
             octree.DrawBoxLines(/*cam.View(), cam.Projection(), graphics.GraphicsDevice, effect*/);
             // TODO: Add your drawing code here
-<<<<<<< HEAD
-            for (int i = 0; i < TOTALSHIPS; i++)
-=======
             /*for (int i = 0; i < ships.Length; i++)
->>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             {
                 if(cam.frustum.Intersects(ships[i].boundingSphere))
                 {

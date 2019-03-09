@@ -35,16 +35,9 @@ namespace MonogameFirstTry
 
         public BoundingSphere boundingSphere;
 
-<<<<<<< HEAD
         public Ship(Vector3 pos, string name)
         {
             this.name = name;
-=======
-        
-
-        public Ship(Vector3 pos)
-        { 
->>>>>>> 9c9af8e3556935e25051118952900daeecd96fba
             position = pos;
             rotationY = 0;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(pos);
