@@ -34,5 +34,10 @@ namespace MonogameFirstTry
         {
             return projection;
         }
+
+        public BoundingFrustum Frustum()
+        {
+            return frustum;
+        }
     }
 }

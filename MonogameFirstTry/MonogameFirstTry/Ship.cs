@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    public class Ship
+    public class Ship : Entity
     {
         protected bool shipActive = true;
 
@@ -30,6 +30,8 @@ namespace MonogameFirstTry
         private Message debugMessage;
 
         public BoundingSphere boundingSphere;
+
+        
 
         public Ship(Vector3 pos)
         { 
@@ -53,20 +55,34 @@ namespace MonogameFirstTry
             }*/
             boundingSphere = shipModel.boundingSphere;
             boundingSphere.Center = position;
+            Console.WriteLine("centro: " + boundingSphere.Center);
         }
 
-        public void isColliding(BoundingSphere otherShip, int ID)
+        public override bool CheckCollision(BoundingSphere otherShip)
         {
             if (boundingSphere.Intersects(otherShip))
             {
                 debugMessage.MessageText = "colidiu com a nave " + ID;
                 MessageBus.Instance.AddMessage(debugMessage);
+                return true;
             }
+            return false;
             
         }
 
-        public void DrawShip(Matrix view, Matrix projection)
+        public void CheckOctreeCollision(BoundingBox bounds)
         {
+            if (boundingSphere.Intersects(bounds))
+            {
+                debugMessage.MessageText = "colidiu com a bounds";
+                MessageBus.Instance.AddMessage(debugMessage);
+            }
+        }
+
+        public override void Draw(Matrix view, Matrix projection)
+        {
+            DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
+
             if (shipActive)
             {
                 foreach (ModelMesh mesh in shipModel.model.Meshes)
