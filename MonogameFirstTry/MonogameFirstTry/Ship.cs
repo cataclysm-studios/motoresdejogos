@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace MonogameFirstTry
 {
     public class Ship
     {
-        protected bool shipActive = true;
+        protected bool shipActive = false;
 
         public bool ShipActive
         {
@@ -19,10 +20,13 @@ namespace MonogameFirstTry
             set { shipActive = value; }
         }
 
-        private float timer = 3;
+        [JsonProperty]
+        private string name = "";
+        //private float timer = 3;
         private const float TIMER = 3;
         private ShipModel shipModel;
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
+        [JsonProperty]
         private Vector3 position;
         private float rotationY;
         private Message positionMessage;
@@ -31,8 +35,9 @@ namespace MonogameFirstTry
 
         public BoundingSphere boundingSphere;
 
-        public Ship(Vector3 pos)
-        { 
+        public Ship(Vector3 pos, string name)
+        {
+            this.name = name;
             position = pos;
             rotationY = 0;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(pos);

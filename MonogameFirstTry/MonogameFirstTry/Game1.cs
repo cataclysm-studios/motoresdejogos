@@ -19,6 +19,8 @@ namespace MonogameFirstTry
         InputHandler inputHandler = new InputHandler();
         List<Command> tempCommands = new List<Command>();
 
+        const int TOTALSHIPS = 10;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -36,17 +38,19 @@ namespace MonogameFirstTry
             // TODO: Add your initialization logic here
             shipModel = new ShipModel();
             cam = new Camera();
-            ships = new Ship[10];
+            ships = new Ship[TOTALSHIPS];
             MessageBus.Instance.Initialize();
             ConsoleWriter.Instance.Initialize();
+            SaveManager.Instance.Initialize();
             for (int i = 0; i < ships.Length; i++)
             {
-                ships[i] = new Ship(new Vector3(-ships.Length * 15 + i * 40, 0, 0));
+                ships[i] = new Ship(new Vector3(-TOTALSHIPS * 15 + i * 40, 0, 0), ("ship " + (i + 1)));
                 if (i == 0 || i == 1)
                 {
                     ships[i].ShipActive = true;
                 }
             }
+            
             base.Initialize();
         }
 
@@ -59,10 +63,12 @@ namespace MonogameFirstTry
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             shipModel.LoadShipModel(Content);
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < TOTALSHIPS; i++)
             {
                 ships[i].LoadModel(shipModel);
             }
+            SaveManager.Instance.SaveShipStates(ships);
+            SaveManager.Instance.ConvertToJson();
             // TODO: use this.Content to load your game content here
         }
 
@@ -89,7 +95,7 @@ namespace MonogameFirstTry
 
 
             // TODO: Add your update logic here
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < TOTALSHIPS; i++)
             {
                 ships[i].UpdateShip(gameTime);
             }
@@ -127,7 +133,7 @@ namespace MonogameFirstTry
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < TOTALSHIPS; i++)
             {
                 if(cam.frustum.Intersects(ships[i].boundingSphere))
                 {
@@ -140,7 +146,7 @@ namespace MonogameFirstTry
 
         public void CheckColissions()
         {
-            for (int i = 1; i < ships.Length; i++)
+            for (int i = 1; i < TOTALSHIPS; i++)
             {
                 ships[0].isColliding(ships[i].boundingSphere, i + 1);
             }

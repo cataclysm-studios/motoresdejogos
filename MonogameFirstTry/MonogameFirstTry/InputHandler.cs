@@ -19,7 +19,7 @@ namespace MonogameFirstTry
         private Message inputDebugMessage = new Message(MessageType.Console, "");
         private List<Command> commands = new List<Command>();
         public List<Command> usedCommands = new List<Command>();
-        private bool sentUsedCommands = false;
+        //private bool sentUsedCommands = false;
 
         public List<Command> HandleInput()
         {
