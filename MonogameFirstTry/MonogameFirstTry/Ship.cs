@@ -28,6 +28,7 @@ namespace MonogameFirstTry
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
         [JsonProperty]
         private Vector3 position;
+        [JsonProperty]
         private float rotationY;
         private Message positionMessage;
         private Message rotationMessage;
@@ -86,7 +87,7 @@ namespace MonogameFirstTry
         {
             DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
 
-            if (shipActive)
+            if (shipActive && shipModel != null)
             {
                 foreach (ModelMesh mesh in shipModel.model.Meshes)
                 {
@@ -122,6 +123,12 @@ namespace MonogameFirstTry
             }
 
             */
+        }
+        public void SetPosition(Vector3 newPos, float rotY)
+        {
+            position = newPos;
+            rotationY = rotY;
+            world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
         }
         public void MoveForward(GameTime gameTime)
         {

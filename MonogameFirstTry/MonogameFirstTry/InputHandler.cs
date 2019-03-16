@@ -15,15 +15,35 @@ namespace MonogameFirstTry
         private Command buttonD = new RotateShipRight();
         private Command buttonQ = new StrafeLeft();
         private Command buttonE = new StrafeRight();
+        private Command buttonK = new SaveState();
+        private Command buttonL = new LoadState();
         //private Command buttonR = new Replay();
         private Message inputDebugMessage = new Message(MessageType.Console, "");
-        private List<Command> commands = new List<Command>();
-        public List<Command> usedCommands = new List<Command>();
-        //private bool sentUsedCommands = false;
+        private List<Command> gameplayCommands = new List<Command>();
+        private List<Command> systemCommands = new List<Command>();
+        public List<Command> usedGameplayCommands = new List<Command>();
+        bool saved = false;
 
-        public List<Command> HandleInput()
+        //private bool sentUsedCommands = false;
+        public Command HandleSystemInput()
         {
-            commands.Clear();
+            if (Keyboard.GetState().IsKeyDown(Keys.K))
+            {
+                inputDebugMessage.MessageText = "K";
+                MessageBus.Instance.AddMessage(inputDebugMessage);
+                return buttonK;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.L))
+            {
+                inputDebugMessage.MessageText = "L";
+                MessageBus.Instance.AddMessage(inputDebugMessage);
+                return buttonL;
+            }
+            return null;
+        }
+        public List<Command> HandleGameplayInput()
+        {
+            gameplayCommands.Clear();
             //usedCommands.Clear();
             /*if(sentUsedCommands)
             {
@@ -42,53 +62,53 @@ namespace MonogameFirstTry
             {
                 inputDebugMessage.MessageText = "W";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
-                commands.Add(buttonW);
-                usedCommands.Add(buttonW);
+                gameplayCommands.Add(buttonW);
+                usedGameplayCommands.Add(buttonW);
                 //return buttonW;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 inputDebugMessage.MessageText = "A";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
-                commands.Add(buttonA);
-                usedCommands.Add(buttonA);
+                gameplayCommands.Add(buttonA);
+                usedGameplayCommands.Add(buttonA);
                 //return buttonA;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 inputDebugMessage.MessageText = "S";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
-                commands.Add(buttonS);
-                usedCommands.Add(buttonS);
+                gameplayCommands.Add(buttonS);
+                usedGameplayCommands.Add(buttonS);
                 //return buttonS;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 inputDebugMessage.MessageText = "D";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
-                commands.Add(buttonD);
-                usedCommands.Add(buttonD);
+                gameplayCommands.Add(buttonD);
+                usedGameplayCommands.Add(buttonD);
                 //return buttonD;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 inputDebugMessage.MessageText = "Q";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
-                commands.Add(buttonQ);
-                usedCommands.Add(buttonQ);
+                gameplayCommands.Add(buttonQ);
+                usedGameplayCommands.Add(buttonQ);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
                 inputDebugMessage.MessageText = "E";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
-                commands.Add(buttonE);
-                usedCommands.Add(buttonE);
+                gameplayCommands.Add(buttonE);
+                usedGameplayCommands.Add(buttonE);
             }
-            if (commands.Count > 0)
+            if (gameplayCommands.Count > 0)
             {
                 //inputDebugMessage.MessageText = commands.Count.ToString() + " " + usedCommands.Count.ToString();
                // MessageBus.Instance.AddMessage(inputDebugMessage);
-                return commands;
+                return gameplayCommands;
             }
             else return null;
         }

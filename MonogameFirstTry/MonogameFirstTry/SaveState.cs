@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    public class StrafeRight : Command
+    public class SaveState : Command
     {
         private Message executeDebugMessage = new Message(MessageType.Console, "");
 
-        public override void Execute(Ship ship, GameTime gameTime, List<Command> commands)
+        public override void Execute(List<Ship> ships, ShipModel shipModel)
         {
-            ship.StrafeRight(gameTime);
-            executeDebugMessage.MessageText = ship.ToString() + " executed Strafe Right";
+            SaveManager.Instance.UpdateShipList(ships);
+            SaveManager.Instance.SaveShipStates();
             MessageBus.Instance.AddMessage(executeDebugMessage);
         }
 
-        public override void Execute(List<Ship> ships, ShipModel shipModel)
+        public override void Execute(Ship ship, GameTime gameTime, List<Command> commands)
         {
             throw new NotImplementedException();
         }

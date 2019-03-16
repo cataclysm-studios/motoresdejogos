@@ -16,7 +16,9 @@ namespace MonogameFirstTry
         ShipModel shipModel;
 
         Camera cam;
-        Ship[] ships;
+        List<Ship> ships;
+
+        const int TOTALSHIPS = 1;
         InputHandler inputHandler = new InputHandler();
         List<Command> tempCommands = new List<Command>();
         // Create Octree
@@ -26,8 +28,7 @@ namespace MonogameFirstTry
         BasicEffect effect;
 
         Dice dice = new Dice();
-
-        const int TOTALSHIPS = 10;
+        
 
         public Game1()
         {
@@ -49,13 +50,14 @@ namespace MonogameFirstTry
             shipModel = new ShipModel();
             DebugShapeRenderer.Initialize(graphics.GraphicsDevice);
             cam = new Camera();
-            ships = new Ship[50];
+            ships = new List<Ship>();
             MessageBus.Instance.Initialize();
             ConsoleWriter.Instance.Initialize();
             SaveManager.Instance.Initialize();
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < TOTALSHIPS; i++)
             {
-                ships[i] = new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)),("ship " + (i + 1)));
+                //ships.Insert(i, new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)),("ship " + (i + 1))));
+                ships.Add(new Ship(new Vector3(0, 0, 0), "ship1"));
                 octree.Add(ships[i]);
                 if (i == 0 || i == 1)
                 {
@@ -79,8 +81,6 @@ namespace MonogameFirstTry
             {
                 ships[i].LoadModel(shipModel);
             }
-            SaveManager.Instance.SaveShipStates(ships);
-            SaveManager.Instance.ConvertToJson();
             // TODO: use this.Content to load your game content here
         }
 
@@ -104,7 +104,7 @@ namespace MonogameFirstTry
                 Exit();
 
             //CheckColissions();
-            for (int i = 0; i < ships.Length; i++)
+            for (int i = 0; i < TOTALSHIPS; i++)
             {
                 octree.ObjectChanged(ships[i]);
                 ships[i].drawn = false;
@@ -115,25 +115,29 @@ namespace MonogameFirstTry
             {
                 ships[i].UpdateShip(gameTime);
             }
-            if(inputHandler.HandleInput() != null)
+            if(inputHandler.HandleSystemInput() != null)
             {
-                foreach (Command action in inputHandler.HandleInput())
+                inputHandler.HandleSystemInput().Execute(ships, shipModel);
+            }
+            if(inputHandler.HandleGameplayInput() != null)
+            {
+                foreach (Command action in inputHandler.HandleGameplayInput())
                 {
-                    action.Execute(ships[0], gameTime, inputHandler.usedCommands);
+                    action.Execute(ships[0], gameTime, inputHandler.usedGameplayCommands);
                 }
                 //inputHandler.HandleInput().Execute(ships[0], gameTime);
             }
-            if(inputHandler.usedCommands.Count > 0)
+            if(inputHandler.usedGameplayCommands.Count > 0)
             {
                 tempCommands.Clear();
-                foreach (Command action in inputHandler.usedCommands)
+                foreach (Command action in inputHandler.usedGameplayCommands)
                 {
                     tempCommands.Add(action);
                     //action.Execute(ships[1], gameTime, inputHandler.usedCommands);
                 }
                 foreach (Command usedReplay in tempCommands)
                 {
-                    inputHandler.usedCommands.Remove(usedReplay);
+                    inputHandler.usedGameplayCommands.Remove(usedReplay);
                 }
             }
             ConsoleWriter.Instance.Update();

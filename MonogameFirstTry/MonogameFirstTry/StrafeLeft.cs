@@ -17,5 +17,10 @@ namespace MonogameFirstTry
             executeDebugMessage.MessageText = ship.ToString() + " executed Strafe Left";
             MessageBus.Instance.AddMessage(executeDebugMessage);
         }
+
+        public override void Execute(List<Ship> ships, ShipModel shipModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

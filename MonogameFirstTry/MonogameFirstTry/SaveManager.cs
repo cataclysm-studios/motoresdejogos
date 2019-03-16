@@ -26,18 +26,19 @@ namespace MonogameFirstTry
         }
         #endregion
         
-        public static List<Ship> activeShips;
-        public static List<Ship> inactiveShips;
-        protected string json;
+        //public static List<Ship> activeShips;
+        //public static List<Ship> inactiveShips;
+        public static List<Ship> allShips;
         protected Message debugJsonMessage = new Message(MessageType.Console, "");
 
         public void Initialize()
         {
-            activeShips = new List<Ship>();
-            inactiveShips = new List<Ship>();
+            allShips = new List<Ship>();
+            //activeShips = new List<Ship>();
+            //inactiveShips = new List<Ship>();
         }
         
-        public void SaveShipStates(Ship[] ships)
+        /*public void SaveShipStates(Ship[] ships)
         {
             for (int i = 0; i < ships.Length; i++)
             {
@@ -50,19 +51,46 @@ namespace MonogameFirstTry
                     inactiveShips.Add(ships[i]);
                 }
             }
+        }*/
+        public void UpdateShipList(List<Ship> ships)
+        {
+            allShips.Clear();
+            foreach (Ship ship in ships)
+            {
+                allShips.Add(ship);
+            }
         }
 
-        public void ConvertToJson()
+        public void SaveShipStates()
         {
-            json = JsonConvert.SerializeObject(activeShips) + JsonConvert.SerializeObject(inactiveShips);
-            debugJsonMessage.MessageText = json;
+            //json = JsonConvert.SerializeObject(activeShips) + JsonConvert.SerializeObject(inactiveShips);
+            string json = JsonConvert.SerializeObject(allShips);
+            File.WriteAllText(@"" + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/ships.json", json);
+            //debugJsonMessage.MessageText = json;
+            //MessageBus.Instance.AddMessage(debugJsonMessage);
+            debugJsonMessage.MessageText = "Saved All Ships info at: " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/ships.json";
             MessageBus.Instance.AddMessage(debugJsonMessage);
-            File.WriteAllText(@"C:\Users\Pedro\Desktop\ships.json", json);
         }
 
-        public void JsonBackToLists()
+        public void LoadShipStates(List<Ship> ships, ShipModel shipModel)
         {
+            allShips.Clear();
+            string json = File.ReadAllText(@"" + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/ships.json");
+            allShips = JsonConvert.DeserializeObject<List<Ship>>(json);
+            ships.Clear();
+            debugJsonMessage.MessageText = "Loaded All Ships info from: " + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/ships.json";
+            foreach (Ship loadedShip in allShips)
+            {
+                ships.Add(loadedShip);
+                loadedShip.LoadModel(shipModel);
+                
+                //loadedShip.SetPosition()
+                /*foreach (Ship ship in ships)
+                {
 
+                }*/
+            }
+            MessageBus.Instance.AddMessage(debugJsonMessage);
         }
     }
 }

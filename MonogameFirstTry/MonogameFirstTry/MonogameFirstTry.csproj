@@ -52,6 +52,7 @@
     <Compile Include="Dice.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="InputHandler.cs" />
+    <Compile Include="LoadState.cs" />
     <Compile Include="MoveShipForward.cs" />
     <Compile Include="MoveShipBackward.cs" />
     <Compile Include="Octree.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="RotateShipRight.cs" />
     <Compile Include="RotateShipLeft.cs" />
     <Compile Include="SaveManager.cs" />
+    <Compile Include="SaveState.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="Game1.cs" />
