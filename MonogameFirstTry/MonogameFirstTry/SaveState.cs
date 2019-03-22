@@ -11,7 +11,7 @@ namespace MonogameFirstTry
     {
         private Message executeDebugMessage = new Message(MessageType.Console, "");
 
-        public override void Execute(List<Ship> ships, ShipModel shipModel)
+        public override void Execute(List<Ship> ships, ResourceManager resourceManager)
         {
             SaveManager.Instance.UpdateShipList(ships);
             SaveManager.Instance.SaveShipStates();

@@ -72,7 +72,7 @@ namespace MonogameFirstTry
             MessageBus.Instance.AddMessage(debugJsonMessage);
         }
 
-        public void LoadShipStates(List<Ship> ships, ShipModel shipModel)
+        public void LoadShipStates(List<Ship> ships, ResourceManager resourceManager)
         {
             allShips.Clear();
             string json = File.ReadAllText(@"" + Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/ships.json");
@@ -82,8 +82,7 @@ namespace MonogameFirstTry
             foreach (Ship loadedShip in allShips)
             {
                 ships.Add(loadedShip);
-                loadedShip.LoadModel(shipModel);
-                
+                loadedShip.LoadModel(resourceManager);
                 //loadedShip.SetPosition()
                 /*foreach (Ship ship in ships)
                 {

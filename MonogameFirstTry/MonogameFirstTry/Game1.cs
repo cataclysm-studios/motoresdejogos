@@ -13,7 +13,7 @@ namespace MonogameFirstTry
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        ShipModel shipModel;
+        ResourceManager resourceManager;
 
         Camera cam;
         List<Ship> ships;
@@ -54,7 +54,8 @@ namespace MonogameFirstTry
             // TODO: Add your initialization logic here
             octree = new Octree(centerOfWorld, worldSize * 8 + worldSize);
             effect = new BasicEffect(graphics.GraphicsDevice);
-            shipModel = new ShipModel();
+            resourceManager = new ResourceManager();
+            resourceManager.Initalize();
             DebugShapeRenderer.Initialize(graphics.GraphicsDevice);
             cam = new Camera();
             ships = new List<Ship>();
@@ -83,10 +84,10 @@ namespace MonogameFirstTry
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            shipModel.LoadShipModel(Content);
+            resourceManager.LoadModel(Content, 0);
             for (int i = 0; i < TOTALSHIPS; i++)
             {
-                ships[i].LoadModel(shipModel);
+                ships[i].LoadModel(resourceManager);
             }
             // TODO: use this.Content to load your game content here
         }
@@ -139,7 +140,7 @@ namespace MonogameFirstTry
 
             if (inputHandler.HandleSystemInput() != null)
             {
-                inputHandler.HandleSystemInput().Execute(ships, shipModel);
+                inputHandler.HandleSystemInput().Execute(ships, resourceManager);
             }
             if(inputHandler.HandleGameplayInput() != null)
             {

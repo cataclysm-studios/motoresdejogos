@@ -9,16 +9,22 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    public class resourceManager
+    public class ResourceManager
     {
-        public Model model;
+        public List<Model> model =  new List<Model>();
         public BoundingSphere boundingSphere;
+        public List<string> path = new List<string>();
 
-        public void LoadresourceManager(ContentManager content)
+        public void Initalize()
         {
-            model = content.Load<Model>("Models/Ship1/p1_saucer");
+            path.Add("Models/Ship1/p1_saucer");
+        }
 
-            foreach (ModelMesh m in model.Meshes)
+        public void LoadModel(ContentManager content, int id)
+        {
+            model.Add(content.Load<Model>(path[0]));
+
+            foreach (ModelMesh m in model[id].Meshes)
             {
                 boundingSphere = BoundingSphere.CreateMerged(this.boundingSphere, m.BoundingSphere);
             }

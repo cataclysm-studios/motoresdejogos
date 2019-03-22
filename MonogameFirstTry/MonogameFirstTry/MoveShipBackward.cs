@@ -18,7 +18,7 @@ namespace MonogameFirstTry
             MessageBus.Instance.AddMessage(executeDebugMessage);
         }
 
-        public override void Execute(List<Ship> ships, ShipModel shipModel)
+        public override void Execute(List<Ship> ships, ResourceManager resourceManager)
         {
             throw new NotImplementedException();
         }
