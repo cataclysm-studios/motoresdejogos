@@ -18,7 +18,14 @@ namespace MonogameFirstTry
         Camera cam;
         List<Ship> ships;
 
-        const int TOTALSHIPS = 1;
+        public enum ControlledShip
+        {
+            Ship0 = 0,
+            Ship1,
+            Ship2
+        }
+        ControlledShip shipUnderControl = 0;
+        const int TOTALSHIPS = 3;
         InputHandler inputHandler = new InputHandler();
         List<Command> tempCommands = new List<Command>();
         // Create Octree
@@ -57,7 +64,7 @@ namespace MonogameFirstTry
             for (int i = 0; i < TOTALSHIPS; i++)
             {
                 //ships.Insert(i, new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)),("ship " + (i + 1))));
-                ships.Add(new Ship(new Vector3(0, 0, 0), "ship1"));
+                ships.Add(new Ship(new Vector3(dice.RollDice(-50, 50), 0, dice.RollDice(-50, 50)), ("ship " + (i + 1))));
                 octree.Add(ships[i]);
                 if (i == 0 || i == 1)
                 {
@@ -109,13 +116,28 @@ namespace MonogameFirstTry
                 octree.ObjectChanged(ships[i]);
                 ships[i].drawn = false;
             }
-            
-            // TODO: Add your update logic here
-            for (int i = 0; i < TOTALSHIPS; i++)
+
+            //ALERTA MARTELO
+            if(Keyboard.GetState().IsKeyDown(Keys.D1))
+            {
+                shipUnderControl = ControlledShip.Ship0;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D2))
+            {
+                shipUnderControl = ControlledShip.Ship1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                shipUnderControl = ControlledShip.Ship2;
+            }
+
+            //not being used yet
+            /*for (int i = 0; i < TOTALSHIPS; i++)
             {
                 ships[i].UpdateShip(gameTime);
-            }
-            if(inputHandler.HandleSystemInput() != null)
+            }*/
+
+            if (inputHandler.HandleSystemInput() != null)
             {
                 inputHandler.HandleSystemInput().Execute(ships, shipModel);
             }
@@ -123,7 +145,7 @@ namespace MonogameFirstTry
             {
                 foreach (Command action in inputHandler.HandleGameplayInput())
                 {
-                    action.Execute(ships[0], gameTime, inputHandler.usedGameplayCommands);
+                    action.Execute(ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands);
                 }
                 //inputHandler.HandleInput().Execute(ships[0], gameTime);
             }

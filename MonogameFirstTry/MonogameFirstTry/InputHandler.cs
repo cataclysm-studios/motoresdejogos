@@ -9,20 +9,22 @@ namespace MonogameFirstTry
 {
     public class InputHandler
     {
+        //Gameplay Commands
         private Command buttonW = new MoveShipForward();
         private Command buttonA = new RotateShipLeft();
         private Command buttonS = new MoveShipBackward();
         private Command buttonD = new RotateShipRight();
         private Command buttonQ = new StrafeLeft();
         private Command buttonE = new StrafeRight();
+        //System Commands
         private Command buttonK = new SaveState();
         private Command buttonL = new LoadState();
         //private Command buttonR = new Replay();
+
         private Message inputDebugMessage = new Message(MessageType.Console, "");
         private List<Command> gameplayCommands = new List<Command>();
         private List<Command> systemCommands = new List<Command>();
         public List<Command> usedGameplayCommands = new List<Command>();
-        bool saved = false;
 
         //private bool sentUsedCommands = false;
         public Command HandleSystemInput()
@@ -43,6 +45,7 @@ namespace MonogameFirstTry
         }
         public List<Command> HandleGameplayInput()
         {
+            KeyboardState newState = Keyboard.GetState();
             gameplayCommands.Clear();
             //usedCommands.Clear();
             /*if(sentUsedCommands)
@@ -107,7 +110,7 @@ namespace MonogameFirstTry
             if (gameplayCommands.Count > 0)
             {
                 //inputDebugMessage.MessageText = commands.Count.ToString() + " " + usedCommands.Count.ToString();
-               // MessageBus.Instance.AddMessage(inputDebugMessage);
+                // MessageBus.Instance.AddMessage(inputDebugMessage);
                 return gameplayCommands;
             }
             else return null;
