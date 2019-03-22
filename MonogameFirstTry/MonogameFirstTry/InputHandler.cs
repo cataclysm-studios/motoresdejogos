@@ -19,6 +19,13 @@ namespace MonogameFirstTry
         //System Commands
         private Command buttonK = new SaveState();
         private Command buttonL = new LoadState();
+        //Camera Commands
+        private Command buttonZoomIn = new MoveCamForward();
+        private Command buttonZoomDown = new MoveCamBackward();
+        private Command buttonNum4 = new StrafeCamLeft();
+        private Command buttonNum6 = new StrafeCamRight();
+        private Command buttonNum8 = new MoveCamUp();
+        private Command buttonNum2 = new MoveCamDown();
         //private Command buttonR = new Replay();
 
         private Message inputDebugMessage = new Message(MessageType.Console, "");
@@ -27,6 +34,8 @@ namespace MonogameFirstTry
         public List<Command> usedGameplayCommands = new List<Command>();
 
         //private bool sentUsedCommands = false;
+
+        //System Input
         public Command HandleSystemInput()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.K))
@@ -43,6 +52,36 @@ namespace MonogameFirstTry
             }
             return null;
         }
+        //Camera Input
+        public Command HandleCameraInput()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad9))
+            {
+                return buttonZoomIn;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad3))
+            {
+                return buttonZoomDown;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad4))
+            {
+                return buttonNum4;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad6))
+            {
+                return buttonNum6;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad8))
+            {
+                return buttonNum8;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad2))
+            {
+                return buttonNum2;
+            }
+            return null;
+        }
+        //Gameplay Input
         public List<Command> HandleGameplayInput()
         {
             KeyboardState newState = Keyboard.GetState();

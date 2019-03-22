@@ -30,6 +30,6 @@ namespace MonogameFirstTry
 
         public abstract void Draw(Matrix viewMatrix, Matrix projectionMatrix);
 
-        public abstract bool CheckCollision(BoundingSphere boundingSphere);
+        public abstract bool CheckCollision(Ship otherShip);
     }
 }

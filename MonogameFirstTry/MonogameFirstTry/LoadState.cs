@@ -11,15 +11,10 @@ namespace MonogameFirstTry
     {
         private Message executeDebugMessage = new Message(MessageType.Console, "");
 
-        public override void Execute(List<Ship> ships, ResourceManager resourceManager)
+        public override void Execute(Camera cam, List<Ship> ships, Ship ship, GameTime gameTime, List<Command> commands, ResourceManager resourceManager)
         {
             SaveManager.Instance.LoadShipStates(ships, resourceManager);
             MessageBus.Instance.AddMessage(executeDebugMessage);
-        }
-
-        public override void Execute(Ship ship, GameTime gameTime, List<Command> commands)
-        {
-            throw new NotImplementedException();
         }
         
     }

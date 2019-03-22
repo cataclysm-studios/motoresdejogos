@@ -67,7 +67,7 @@ namespace MonogameFirstTry
                 //ships.Insert(i, new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)),("ship " + (i + 1))));
                 ships.Add(new Ship(new Vector3(dice.RollDice(-50, 50), 0, dice.RollDice(-50, 50)), ("ship " + (i + 1))));
                 octree.Add(ships[i]);
-                if (i == 0 || i == 1)
+                if (i == 0 || i == 1 || i == 2)
                 {
                     ships[i].ShipActive = true;
                 }
@@ -111,7 +111,7 @@ namespace MonogameFirstTry
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //CheckColissions();
+            CheckColissions();
             for (int i = 0; i < TOTALSHIPS; i++)
             {
                 octree.ObjectChanged(ships[i]);
@@ -138,18 +138,31 @@ namespace MonogameFirstTry
                 ships[i].UpdateShip(gameTime);
             }*/
 
+
+            //System Input
             if (inputHandler.HandleSystemInput() != null)
             {
-                inputHandler.HandleSystemInput().Execute(ships, resourceManager);
+                inputHandler.HandleSystemInput().Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
             }
-            if(inputHandler.HandleGameplayInput() != null)
+            //Gameplay Input
+            if (inputHandler.HandleGameplayInput() != null)
             {
                 foreach (Command action in inputHandler.HandleGameplayInput())
                 {
-                    action.Execute(ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands);
+                    action.Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
                 }
                 //inputHandler.HandleInput().Execute(ships[0], gameTime);
             }
+            //Camera Input
+            if (inputHandler.HandleCameraInput() != null)
+            {
+                inputHandler.HandleCameraInput().Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
+            }
+
+
+
+
+            /*
             if(inputHandler.usedGameplayCommands.Count > 0)
             {
                 tempCommands.Clear();
@@ -162,7 +175,7 @@ namespace MonogameFirstTry
                 {
                     inputHandler.usedGameplayCommands.Remove(usedReplay);
                 }
-            }
+            }*/
             ConsoleWriter.Instance.Update();
             base.Update(gameTime);
         }
@@ -198,9 +211,10 @@ namespace MonogameFirstTry
 
         public void CheckColissions()
         {
-            for (int i = 1; i < TOTALSHIPS; i++)
+            for (int i = 0; i < TOTALSHIPS; i++)
             {
-                ships[0].CheckOctreeCollision(octree.bounds);
+                if(i != (int)shipUnderControl)
+                ships[(int)shipUnderControl].CheckCollision(ships[i]);
             }
         }
     }

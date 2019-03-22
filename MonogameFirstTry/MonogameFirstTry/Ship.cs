@@ -62,11 +62,11 @@ namespace MonogameFirstTry
             Console.WriteLine("centro: " + boundingSphere.Center);
         }
 
-        public override bool CheckCollision(BoundingSphere otherShip)
+        public override bool CheckCollision(Ship otherShip)
         {
-            if (boundingSphere.Intersects(otherShip))
+            if (boundingSphere.Intersects(otherShip.boundingSphere))
             {
-                debugMessage.MessageText = "colidiu com a nave " + ID;
+                debugMessage.MessageText = "colidiu com a nave " + otherShip.name;
                 MessageBus.Instance.AddMessage(debugMessage);
                 return true;
             }

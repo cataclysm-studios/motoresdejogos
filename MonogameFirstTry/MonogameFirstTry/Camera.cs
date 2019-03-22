@@ -7,22 +7,60 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    class Camera
+    public class Camera
     {
         private Matrix view;
+        private Vector3 position;
+        private Vector3 target;
+        private Vector3 left;
+        private Vector3 up;
         private Matrix projection;
         public BoundingFrustum frustum;
 
         public Camera()
         {
-            view = Matrix.CreateLookAt(new Vector3(200, 200, 200), new Vector3(80, 0, 0), Vector3.UnitY);
+            position = new Vector3(80, 0, 80);
+            target = new Vector3(80, 0, 0);
+            left = new Vector3(-1, 0, 0);
+            up = new Vector3(0, 1, 0);
+            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 1000f);
             frustum = new BoundingFrustum(view * projection);
         }
 
-        public void MoveCameraTo()
+        public void MoveForward(GameTime gameTime)
         {
-
+            position += (target-position) * 0.005f * gameTime.ElapsedGameTime.Milliseconds;
+            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
+        }
+        public void MoveBackward(GameTime gameTime)
+        {
+            position -= (target - position) * 0.005f * gameTime.ElapsedGameTime.Milliseconds;
+            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
+        }
+        public void StrafeLeft(GameTime gameTime)
+        {
+            position += left * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            target += left * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
+        }
+        public void StrafeRight(GameTime gameTime)
+        {
+            position -= left * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            target -= left * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
+        }
+        public void MoveUp(GameTime gameTime)
+        {
+            position += up * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            target += up * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
+        }
+        public void MoveDown(GameTime gameTime)
+        {
+            position -= up * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            target -= up * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
         }
 
         public Matrix View()
