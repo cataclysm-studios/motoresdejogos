@@ -24,7 +24,7 @@ namespace MonogameFirstTry
         private string name = "";
         //private float timer = 3;
         private const float TIMER = 3;
-        private ShipModel shipModel;
+        private ResourceManager resourceManager;
         private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
         [JsonProperty]
         private Vector3 position;
@@ -49,15 +49,15 @@ namespace MonogameFirstTry
             MessageBus.Instance.AddMessage(rotationMessage);
         }
 
-        public void LoadModel(ShipModel shipModel)
+        public void LoadModel(ResourceManager resourceManager)
         {
-            this.shipModel = shipModel;
+            this.resourceManager = resourceManager;
             /*
-            foreach (ModelMesh m in this.shipModel.model.Meshes)
+            foreach (ModelMesh m in this.resourceManager.model.Meshes)
             {
                 boundingSphere = BoundingSphere.CreateMerged(this.boundingSphere, m.BoundingSphere);
             }*/
-            boundingSphere = shipModel.boundingSphere;
+            boundingSphere = resourceManager.boundingSphere;
             boundingSphere.Center = position;
             Console.WriteLine("centro: " + boundingSphere.Center);
         }
@@ -87,9 +87,9 @@ namespace MonogameFirstTry
         {
             DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
 
-            if (shipActive && shipModel != null)
+            if (shipActive && resourceManager != null)
             {
-                foreach (ModelMesh mesh in shipModel.model.Meshes)
+                foreach (ModelMesh mesh in resourceManager.model[0].Meshes)
                 {
                     foreach (BasicEffect effect in mesh.Effects)
                     {

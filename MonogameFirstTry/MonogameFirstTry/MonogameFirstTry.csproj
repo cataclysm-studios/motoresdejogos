@@ -57,6 +57,7 @@
     <Compile Include="MoveShipBackward.cs" />
     <Compile Include="Octree.cs" />
     <Compile Include="Replay.cs" />
+    <Compile Include="ResourceManager.cs" />
     <Compile Include="RotateShipRight.cs" />
     <Compile Include="RotateShipLeft.cs" />
     <Compile Include="SaveManager.cs" />

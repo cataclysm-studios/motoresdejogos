@@ -22,7 +22,6 @@ namespace MonogameFirstTry
         private List<Command> gameplayCommands = new List<Command>();
         private List<Command> systemCommands = new List<Command>();
         public List<Command> usedGameplayCommands = new List<Command>();
-        bool saved = false;
 
         //private bool sentUsedCommands = false;
         public Command HandleSystemInput()
