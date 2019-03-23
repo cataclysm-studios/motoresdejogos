@@ -59,7 +59,6 @@ namespace MonogameFirstTry
             resourceManager.Initalize();
             DebugShapeRenderer.Initialize(graphics.GraphicsDevice);
             cam = new Camera();
-            skyBox = new SkyBox(graphics.GraphicsDevice);
             ships = new List<Ship>();
             MessageBus.Instance.Initialize();
             ConsoleWriter.Instance.Initialize();
@@ -92,8 +91,8 @@ namespace MonogameFirstTry
             {
                 ships[i].LoadModel(resourceManager);
             }
-            skyBox.LoadResources();
             skyBox = new SkyBox(graphics.GraphicsDevice);
+            skyBox.LoadResources();
             skyBox.Textures[0] = Content.Load<Texture2D>("skybox/front");
             skyBox.Textures[1] = Content.Load<Texture2D>("skybox/back");
             skyBox.Textures[2] = Content.Load<Texture2D>("skybox/bot");
