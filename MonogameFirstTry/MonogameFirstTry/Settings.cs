@@ -8,6 +8,6 @@ namespace MonogameFirstTry
 {
     public static class Settings
     {
-        public static int worldSize = 50;
+        public static int WorldSize = 50;
     }
 }

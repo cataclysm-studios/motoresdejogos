@@ -24,7 +24,7 @@ namespace MonogameFirstTry
         #endregion
 
         protected static List<Message> messages;
-
+        private Message lastMessage;
         public static List<Message> Messages
         {
             get { return messages; }
@@ -44,7 +44,12 @@ namespace MonogameFirstTry
 
         public void Write(Message message)
         {
-            Console.WriteLine(message.MessageText);
+            if(message != lastMessage)
+            {
+                Console.WriteLine(message.MessageText);
+                lastMessage = message;
+            }
+            
         }
 
         public void Update()

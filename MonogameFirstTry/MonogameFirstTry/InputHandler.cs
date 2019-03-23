@@ -22,10 +22,10 @@ namespace MonogameFirstTry
         //Camera Commands
         private Command buttonZoomIn = new MoveCamForward();
         private Command buttonZoomDown = new MoveCamBackward();
-        private Command buttonNum4 = new StrafeCamLeft();
-        private Command buttonNum6 = new StrafeCamRight();
-        private Command buttonNum8 = new MoveCamUp();
-        private Command buttonNum2 = new MoveCamDown();
+        private Command buttonCamLeft = new StrafeCamLeft();
+        private Command buttonCamRight = new StrafeCamRight();
+        private Command buttonCamUp = new MoveCamUp();
+        private Command buttonCamDown = new MoveCamDown();
         //private Command buttonR = new Replay();
 
         private Message inputDebugMessage = new Message(MessageType.Console, "");
@@ -55,29 +55,29 @@ namespace MonogameFirstTry
         //Camera Input
         public Command HandleCameraInput()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.NumPad9))
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad8))
             {
                 return buttonZoomIn;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.NumPad3))
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad2))
             {
                 return buttonZoomDown;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.NumPad4))
             {
-                return buttonNum4;
+                return buttonCamLeft;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.NumPad6))
             {
-                return buttonNum6;
+                return buttonCamRight;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.NumPad8))
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad9))
             {
-                return buttonNum8;
+                return buttonCamUp;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.NumPad2))
+            if (Keyboard.GetState().IsKeyDown(Keys.NumPad3))
             {
-                return buttonNum2;
+                return buttonCamDown;
             }
             return null;
         }

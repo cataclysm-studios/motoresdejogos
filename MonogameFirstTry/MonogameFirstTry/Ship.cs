@@ -12,7 +12,7 @@ namespace MonogameFirstTry
 {
     public class Ship : Entity
     {
-        protected bool shipActive = false;
+        protected bool shipActive = true;
 
         public bool ShipActive
         {
@@ -87,7 +87,7 @@ namespace MonogameFirstTry
         {
             DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
 
-            if (shipActive && resourceManager != null)
+            if (shipActive && resourceManager != null && new BoundingFrustum(view * projection).Intersects(boundingSphere))
             {
                 foreach (ModelMesh mesh in resourceManager.model[0].Meshes)
                 {
@@ -111,19 +111,12 @@ namespace MonogameFirstTry
 
         public void UpdateShip(GameTime gameTime)
         {
-            //world *= Matrix.CreateRotationY(0.005f);
-            /*
-            
-            timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(timer < 0)
-            {
-                positionMessage.MessageText = world.Translation.ToString();
-                MessageBus.Instance.AddMessage(positionMessage);
-                timer = TIMER;
-            }
-
-            */
+            position += world.Forward * 0.005f * gameTime.ElapsedGameTime.Milliseconds;
+            world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+            boundingSphere.Center = position;
         }
+
+
         public void SetPosition(Vector3 newPos, float rotY)
         {
             position = newPos;

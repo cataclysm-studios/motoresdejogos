@@ -9,22 +9,22 @@ namespace MonogameFirstTry
 {
     public class Camera
     {
-        private Matrix view;
-        private Vector3 position;
-        private Vector3 target;
+        public Matrix view;
+        public Vector3 position;
+        public Vector3 target;
         private Vector3 left;
         private Vector3 up;
-        private Matrix projection;
+        public Matrix projection;
         public BoundingFrustum frustum;
 
         public Camera()
         {
-            position = new Vector3(80, 0, 80);
-            target = new Vector3(80, 0, 0);
+            position = new Vector3(0, 80, 200);
+            target = new Vector3(0, 0, 0);
             left = new Vector3(-1, 0, 0);
             up = new Vector3(0, 1, 0);
             view = Matrix.CreateLookAt(position, target, Vector3.UnitY);
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 1000f);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 10000f);
             frustum = new BoundingFrustum(view * projection);
         }
 
