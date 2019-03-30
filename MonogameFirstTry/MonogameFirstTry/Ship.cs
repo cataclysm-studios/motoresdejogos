@@ -86,7 +86,7 @@ namespace MonogameFirstTry
         public override void Draw(Matrix view, Matrix projection)
         {
             DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
-
+                                                            // ALERTA MARTELO
             if (shipActive && resourceManager != null && new BoundingFrustum(view * projection).Intersects(boundingSphere))
             {
                 foreach (ModelMesh mesh in resourceManager.model[0].Meshes)

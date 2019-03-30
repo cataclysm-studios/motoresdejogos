@@ -73,7 +73,6 @@ namespace MonogameFirstTry
                     ships[i].ShipActive = true;
                 //}
             }
-            Console.WriteLine(ships.Count);
             octree.Collapse(octree);
             base.Initialize();
         }
