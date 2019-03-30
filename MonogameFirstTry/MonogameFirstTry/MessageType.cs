@@ -9,5 +9,6 @@ namespace MonogameFirstTry
     public enum MessageType
     {
         Console,
+        ParticleEffect,
     }
 }

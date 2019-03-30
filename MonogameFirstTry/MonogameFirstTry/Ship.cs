@@ -67,6 +67,7 @@ namespace MonogameFirstTry
             if (boundingSphere.Intersects(otherShip.boundingSphere))
             {
                 debugMessage.MessageText = "colidiu com a nave " + otherShip.name;
+                MessageBus.Instance.AddMessage(new Message(MessageType.ParticleEffect, otherShip.GetPosition(),100));
                 MessageBus.Instance.AddMessage(debugMessage);
                 return true;
             }
@@ -114,6 +115,11 @@ namespace MonogameFirstTry
             position += world.Forward * 0.005f * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             boundingSphere.Center = position;
+        }
+
+        public Vector3 GetPosition()
+        {
+            return position;
         }
 
 

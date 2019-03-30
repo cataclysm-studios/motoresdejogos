@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,10 +25,33 @@ namespace MonogameFirstTry
             set { messageText = value; }
         }
 
+        protected Vector3 position;
+
+        public Vector3 MessagePosition
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        protected int numberOfParticles;
+
+        public int NumberOfParticles
+        {
+            get { return numberOfParticles; }
+            set { numberOfParticles = value; }
+        }
+
+
         public Message(MessageType messageType, string messageText)
         {
             this.messageType = messageType;
             this.messageText = messageText;
+        }
+        public Message(MessageType messageType, Vector3 position, int numberOfParticles)
+        {
+            this.messageType = messageType;
+            this.position = position;
+            this.numberOfParticles = numberOfParticles;
         }
 
     }
