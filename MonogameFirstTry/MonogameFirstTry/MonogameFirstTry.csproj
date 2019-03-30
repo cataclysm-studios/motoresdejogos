@@ -51,6 +51,8 @@
     <Compile Include="DebugShapeRenderer.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="ExplosionParticle.cs" />
+    <Compile Include="ExplosionParticleSystem.cs" />
     <Compile Include="InputHandler.cs" />
     <Compile Include="LoadState.cs" />
     <Compile Include="MoveShipForward.cs" />
