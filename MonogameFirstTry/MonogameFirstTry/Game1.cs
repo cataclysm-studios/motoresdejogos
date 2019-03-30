@@ -16,7 +16,7 @@ namespace MonogameFirstTry
         ResourceManager resourceManager;
         SkyBox skyBox;
 
-        Camera cam;
+        public static Camera cam;
         List<Ship> ships;
 
         public enum ControlledShip
