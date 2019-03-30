@@ -15,7 +15,6 @@ namespace MonogameFirstTry
         SpriteBatch spriteBatch;
         ResourceManager resourceManager;
         SkyBox skyBox;
-
         public static Camera cam;
         List<Ship> ships;
 
@@ -36,6 +35,7 @@ namespace MonogameFirstTry
         BasicEffect effect;
 
         Dice dice = new Dice();
+        Random random = new Random();
         
 
         public Game1()
@@ -63,6 +63,8 @@ namespace MonogameFirstTry
             MessageBus.Instance.Initialize();
             ConsoleWriter.Instance.Initialize();
             SaveManager.Instance.Initialize();
+            ExplosionCaller.Instance.Initialize();
+            
             for (int i = 0; i < TOTALSHIPS; i++)
             {
                 //ships.Insert(i, new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)),("ship " + (i + 1))));
@@ -73,6 +75,8 @@ namespace MonogameFirstTry
                     ships[i].ShipActive = true;
                 //}
             }
+            ExplosionParticlesSystem.Initialize(random);
+            ExplosionParticlesSystem.InserirExplosao(new Vector3(80, 0, 0), 100, 1, 1, new Vector3(1, 1, 1));
             octree.Collapse(octree);
             base.Initialize();
         }
@@ -168,7 +172,7 @@ namespace MonogameFirstTry
                 inputHandler.HandleCameraInput().Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
             }
 
-
+            ExplosionParticlesSystem.Update(random, gameTime);
 
 
             /*
@@ -193,6 +197,7 @@ namespace MonogameFirstTry
                 }
             }
             ConsoleWriter.Instance.Update();
+            ExplosionCaller.Instance.Update();
             base.Update(gameTime);
         }
 
@@ -206,7 +211,7 @@ namespace MonogameFirstTry
             skyBox.Draw();
             DebugShapeRenderer.Draw(gameTime, cam.View(), cam.Projection());
             //DebugShapeRenderer.AddBoundingBox(new BoundingBox(new Vector3(1, 1, 1), new Vector3(10, 10, 10)), Color.Red);
-
+            ExplosionParticlesSystem.Draw(GraphicsDevice, effect);
             octree.DrawBoxLines(/*cam.View(), cam.Projection(), graphics.GraphicsDevice, effect*/);
             // TODO: Add your drawing code here
             /*for (int i = 0; i < ships.Length; i++)

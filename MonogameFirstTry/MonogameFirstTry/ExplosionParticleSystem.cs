@@ -36,7 +36,7 @@ namespace MonogameFirstTry
             }
         }
 
-        static public void inserirExplosao(Vector3 posicao, int nParticulas, float velocidadeMedia, float perturbacao, Vector3 direcao)
+        static public void InserirExplosao(Vector3 posicao, int nParticulas, float velocidadeMedia, float perturbacao, Vector3 direcao)
         {
             if (particulasMortas.Count > 0)
             {
