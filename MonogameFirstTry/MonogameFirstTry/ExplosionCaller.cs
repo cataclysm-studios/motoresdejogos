@@ -54,7 +54,6 @@ namespace MonogameFirstTry
             foreach (Message message in messages)
             {
                 Explode(message);
-                Console.WriteLine("PUM E TCHE");
             }
         }
     

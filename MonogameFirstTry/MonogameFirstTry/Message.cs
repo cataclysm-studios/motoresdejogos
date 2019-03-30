@@ -41,12 +41,18 @@ namespace MonogameFirstTry
             set { numberOfParticles = value; }
         }
 
-
+        /// <summary>
+        /// Message constructor for Console type
+        /// </summary>
         public Message(MessageType messageType, string messageText)
         {
             this.messageType = messageType;
             this.messageText = messageText;
         }
+
+        /// <summary>
+        /// Message constructor for ParticleEffects type
+        /// </summary>
         public Message(MessageType messageType, Vector3 position, int numberOfParticles)
         {
             this.messageType = messageType;
