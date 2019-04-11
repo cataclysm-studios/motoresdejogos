@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    class Dice
+    public class Dice
     {
-        private static readonly Random dice = new Random();
+        public static readonly Random dice = new Random();
 
-        public int RollDice(int m, int M)
+        public static int RollDice(int m, int M)
         {
             lock (dice) // synchronize
             {

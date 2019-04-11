@@ -25,18 +25,18 @@ namespace MonogameFirstTry
             Ship2
         }
         ControlledShip shipUnderControl = 0;
-        const int TOTALSHIPS = 3;
+        const int TOTALSHIPS = 200;
         InputHandler inputHandler = new InputHandler();
         List<Command> tempCommands = new List<Command>();
         // Create Octree
         float worldSize = Settings.WorldSize;
-        Vector3 centerOfWorld = new Vector3(0,0,0);
+        Vector3 centerOfWorld = new Vector3(0, 0, 0);
         Octree octree;
         BasicEffect effect;
 
-        Dice dice = new Dice();
+        //Dice dice = new Dice();
         Random random = new Random();
-        
+
 
         public Game1()
         {
@@ -64,19 +64,33 @@ namespace MonogameFirstTry
             ConsoleWriter.Instance.Initialize();
             SaveManager.Instance.Initialize();
             ExplosionCaller.Instance.Initialize();
-            
+
             for (int i = 0; i < TOTALSHIPS; i++)
             {
                 //ships.Insert(i, new Ship(new Vector3(dice.RollDice(-500,500), dice.RollDice(-500, 500), dice.RollDice(-500, 500)),("ship " + (i + 1))));
-                ships.Add(new Ship(new Vector3(dice.RollDice(-200, 200), 0, dice.RollDice(-200, 0)), ("ship " + (i + 1))));
+                ships.Add(new Ship(Settings.SuggestedEnemyStartingPosition, ("ship " + (i + 1))));
                 octree.Add(ships[i]);
-                //if (i == 0 || i == 1 || i == 2)
-                //{
-                    ships[i].ShipActive = true;
-                //}
+                if (i == 0)
+                {
+                    ships[i].Instantiate(Settings.SuggestedPlayerStartingPosition, Settings.PlayerRotationFactor);
+                }
+                else if ( i > 0 && i <= Settings.StartingEnemyNumber)
+                {
+                    ships[i].Instantiate(new Vector3(Settings.SuggestedEnemyStartingPosition.X + Dice.RollDice(-280,280), 0, Settings.SuggestedEnemyStartingPosition.Z + Dice.RollDice(-300, 0)), Settings.EnemyRotationFactor);
+                }
+                else
+                {
+                    ships[i].ShipActive = false;
+                }
             }
+            int c = 0;
+            foreach (Ship ship in ships)
+            {
+                if (ship.ShipActive)
+                    c++;
+            }
+            Console.WriteLine(c);
             ExplosionParticlesSystem.Initialize(random);
-            ExplosionParticlesSystem.InserirExplosao(new Vector3(80, 0, 0), 100, 1, 1, new Vector3(1, 1, 1));
             octree.Collapse(octree);
             base.Initialize();
         }
@@ -132,7 +146,7 @@ namespace MonogameFirstTry
             }
 
             //ALERTA MARTELO
-            if(Keyboard.GetState().IsKeyDown(Keys.D1))
+            /*if(Keyboard.GetState().IsKeyDown(Keys.D1))
             {
                 shipUnderControl = ControlledShip.Ship0;
             }
@@ -143,7 +157,7 @@ namespace MonogameFirstTry
             if (Keyboard.GetState().IsKeyDown(Keys.D3))
             {
                 shipUnderControl = ControlledShip.Ship2;
-            }
+            }*/
 
             //not being used yet
             /*for (int i = 0; i < TOTALSHIPS; i++)
@@ -191,7 +205,7 @@ namespace MonogameFirstTry
             }*/
             for (int i = 0; i < TOTALSHIPS; i++)
             {
-                if(i != (int)shipUnderControl)
+                if (i != (int)shipUnderControl)
                 {
                     ships[i].UpdateShip(gameTime);
                 }
@@ -209,10 +223,10 @@ namespace MonogameFirstTry
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             skyBox.Draw();
-            DebugShapeRenderer.Draw(gameTime, cam.View(), cam.Projection());
+            //DebugShapeRenderer.Draw(gameTime, cam.View(), cam.Projection());
             //DebugShapeRenderer.AddBoundingBox(new BoundingBox(new Vector3(1, 1, 1), new Vector3(10, 10, 10)), Color.Red);
             ExplosionParticlesSystem.Draw(GraphicsDevice, effect);
-            octree.DrawBoxLines(/*cam.View(), cam.Projection(), graphics.GraphicsDevice, effect*/);
+            //octree.DrawBoxLines(/*cam.View(), cam.Projection(), graphics.GraphicsDevice, effect*/);
             // TODO: Add your drawing code here
             /*for (int i = 0; i < ships.Length; i++)
             {
@@ -225,18 +239,23 @@ namespace MonogameFirstTry
             octree.ModelsDrawn = 0; // this just resets the models drawn every frame (if you want the statistics)
             octree.Draw(cam.View(), cam.Projection(), cam.Frustum());
             //octree.DrawZoneOfDeath(cam.View(), cam.Projection(), graphics.GraphicsDevice,effect);
-            
+
             base.Draw(gameTime);
         }
 
-        
+
 
         public void CheckColissions()
         {
             for (int i = 0; i < TOTALSHIPS; i++)
             {
-                if(i != (int)shipUnderControl)
-                ships[(int)shipUnderControl].CheckCollision(ships[i]);
+                if (i != (int)shipUnderControl)
+                {
+                    if (ships[i].ShipActive == true)
+                    {
+                        ships[(int)shipUnderControl].CheckCollision(ships[i]);
+                    }
+                }
             }
         }
     }

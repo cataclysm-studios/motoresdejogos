@@ -40,7 +40,7 @@ namespace MonogameFirstTry
         {
             this.name = name;
             position = pos;
-            rotationY = 0;
+            rotationY = 0f;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(pos);
             positionMessage = new Message(MessageType.Console, world.Translation.ToString());
             rotationMessage = new Message(MessageType.Console, world.Forward.ToString());
@@ -86,9 +86,9 @@ namespace MonogameFirstTry
 
         public override void Draw(Matrix view, Matrix projection)
         {
-            DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
-                                                            // ALERTA MARTELO
-            if (shipActive && resourceManager != null && new BoundingFrustum(view * projection).Intersects(boundingSphere))
+            //DebugShapeRenderer.AddBoundingSphere(this.boundingSphere,Color.Red);
+
+            if (shipActive && resourceManager != null && Game1.cam.frustum.Intersects(boundingSphere))
             {
                 foreach (ModelMesh mesh in resourceManager.model[0].Meshes)
                 {
@@ -104,17 +104,28 @@ namespace MonogameFirstTry
             }
         }
 
-        public void Instantiate(Vector3 position)
+        public void Instantiate(Vector3 position, float rotY)
         {
             shipActive = true;
-            this.position = position;
+            SetPosition(position);
+            SetRotation(rotY);
         }
 
         public void UpdateShip(GameTime gameTime)
         {
-            position += world.Forward * 0.005f * gameTime.ElapsedGameTime.Milliseconds;
-            world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
-            boundingSphere.Center = position;
+            if (shipActive)
+            {
+                position += world.Forward * Settings.SuggestedEnemyMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
+                world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+                boundingSphere.Center = position;
+
+                //se ja passou pelo player mas não rebentou (Saiu do ecra para baixo)
+                if(position.Z >= Settings.MaxZPos && shipActive)
+                {
+                    SetPosition(new Vector3(Settings.SuggestedEnemyStartingPosition.X + Dice.RollDice(-280, 280), 0, Settings.SuggestedEnemyStartingPosition.Z + Dice.RollDice(-100, 0)));
+                    SetRotation(Settings.EnemyRotationFactor);
+                }
+            }
         }
 
         public Vector3 GetPosition()
@@ -123,15 +134,22 @@ namespace MonogameFirstTry
         }
 
 
-        public void SetPosition(Vector3 newPos, float rotY)
+        public void SetPosition(Vector3 newPos)
         {
             position = newPos;
+            world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+        }
+
+        public void SetRotation(float rotY)
+        {
             rotationY = rotY;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
         }
+
+
         public void MoveForward(GameTime gameTime)
         {
-            position += world.Forward * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            position += world.Forward * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);
@@ -139,7 +157,7 @@ namespace MonogameFirstTry
         }
         public void MoveBackward(GameTime gameTime)
         {
-            position -= world.Forward * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            position -= world.Forward * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);
@@ -161,7 +179,7 @@ namespace MonogameFirstTry
         }
         public void StrafeLeft(GameTime gameTime)
         {
-            position += world.Left * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            position += world.Left * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);
@@ -169,7 +187,7 @@ namespace MonogameFirstTry
         }
         public void StrafeRight(GameTime gameTime)
         {
-            position += world.Right * 0.5f * gameTime.ElapsedGameTime.Milliseconds;
+            position += world.Right * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
             positionMessage.MessageText = world.Translation.ToString();
             MessageBus.Instance.AddMessage(positionMessage);

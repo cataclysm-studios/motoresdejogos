@@ -34,24 +34,8 @@ namespace MonogameFirstTry
         public void Initialize()
         {
             allShips = new List<Ship>();
-            //activeShips = new List<Ship>();
-            //inactiveShips = new List<Ship>();
         }
-        
-        /*public void SaveShipStates(Ship[] ships)
-        {
-            for (int i = 0; i < ships.Length; i++)
-            {
-                if(ships[i].ShipActive)
-                {
-                    activeShips.Add(ships[i]);
-                }
-                else
-                {
-                    inactiveShips.Add(ships[i]);
-                }
-            }
-        }*/
+
         public void UpdateShipList(List<Ship> ships)
         {
             allShips.Clear();

@@ -11,11 +11,11 @@ namespace MonogameFirstTry
     {
         //Gameplay Commands
         private Command buttonW = new MoveShipForward();
-        private Command buttonA = new RotateShipLeft();
+        private Command buttonA = new StrafeLeft();
         private Command buttonS = new MoveShipBackward();
-        private Command buttonD = new RotateShipRight();
-        private Command buttonQ = new StrafeLeft();
-        private Command buttonE = new StrafeRight();
+        private Command buttonD = new StrafeRight();
+        private Command buttonQ = new RotateShipLeft();
+        private Command buttonE = new RotateShipRight();
         //System Commands
         private Command buttonK = new SaveState();
         private Command buttonL = new LoadState();
@@ -132,7 +132,8 @@ namespace MonogameFirstTry
                 usedGameplayCommands.Add(buttonD);
                 //return buttonD;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+
+            /*if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 inputDebugMessage.MessageText = "Q";
                 MessageBus.Instance.AddMessage(inputDebugMessage);
@@ -145,7 +146,9 @@ namespace MonogameFirstTry
                 MessageBus.Instance.AddMessage(inputDebugMessage);
                 gameplayCommands.Add(buttonE);
                 usedGameplayCommands.Add(buttonE);
-            }
+            }*/
+
+
             if (gameplayCommands.Count > 0)
             {
                 //inputDebugMessage.MessageText = commands.Count.ToString() + " " + usedCommands.Count.ToString();

@@ -19,7 +19,7 @@ namespace MonogameFirstTry
 
         public Camera()
         {
-            position = new Vector3(0, 80, 200);
+            position = Settings.SuggestedCameraStartingPosition;
             target = new Vector3(0, 0, 0);
             left = new Vector3(-1, 0, 0);
             up = new Vector3(0, 1, 0);
