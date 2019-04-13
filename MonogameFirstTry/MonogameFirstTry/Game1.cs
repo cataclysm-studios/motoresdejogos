@@ -11,27 +11,43 @@ namespace MonogameFirstTry
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        ResourceManager resourceManager;
-        SkyBox skyBox;
-        public static Camera cam;
-        List<Ship> ships;
-
+        public enum GameState
+        {
+            Initializing = 0,
+            Ingame,
+            TimeIsOver,
+        }
         public enum ControlledShip
         {
             Ship0 = 0,
             Ship1,
             Ship2
         }
+
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
+        ResourceManager resourceManager;
+        SkyBox skyBox;
+        public static Camera cam;
+        List<Ship> ships;
+        
+        GameState currentGameState = 0;
         ControlledShip shipUnderControl = 0;
+
         const int TOTALSHIPS = 200;
+
+        float roundTimer = 0f;
+        public static float currentScore = 0f;
+        public static float maxScore = 0f;
+        
         InputHandler inputHandler = new InputHandler();
         List<Command> tempCommands = new List<Command>();
+
         // Create Octree
         float worldSize = Settings.WorldSize;
         Vector3 centerOfWorld = new Vector3(0, 0, 0);
         Octree octree;
+
         BasicEffect effect;
 
         //Dice dice = new Dice();
@@ -53,6 +69,7 @@ namespace MonogameFirstTry
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            currentGameState = GameState.Initializing;
             octree = new Octree(centerOfWorld, worldSize * 8 + worldSize);
             effect = new BasicEffect(graphics.GraphicsDevice);
             resourceManager = new ResourceManager();
@@ -92,6 +109,7 @@ namespace MonogameFirstTry
             Console.WriteLine(c);
             ExplosionParticlesSystem.Initialize(random);
             octree.Collapse(octree);
+            currentGameState = GameState.Ingame;
             base.Initialize();
         }
 
@@ -135,83 +153,88 @@ namespace MonogameFirstTry
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            skyBox.Update(gameTime, cam);
-            CheckColissions();
-            for (int i = 0; i < TOTALSHIPS; i++)
+            //RoundTime(gameTime);
+            if (currentGameState == GameState.Ingame)
             {
-                octree.ObjectChanged(ships[i]);
-                ships[i].drawn = false;
-            }
 
-            //ALERTA MARTELO
-            /*if(Keyboard.GetState().IsKeyDown(Keys.D1))
-            {
-                shipUnderControl = ControlledShip.Ship0;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D2))
-            {
-                shipUnderControl = ControlledShip.Ship1;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D3))
-            {
-                shipUnderControl = ControlledShip.Ship2;
-            }*/
-
-            //not being used yet
-            /*for (int i = 0; i < TOTALSHIPS; i++)
-            {
-                ships[i].UpdateShip(gameTime);
-            }*/
-
-
-            //System Input
-            if (inputHandler.HandleSystemInput() != null)
-            {
-                inputHandler.HandleSystemInput().Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
-            }
-            //Gameplay Input
-            if (inputHandler.HandleGameplayInput() != null)
-            {
-                foreach (Command action in inputHandler.HandleGameplayInput())
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+                skyBox.Update(gameTime, cam);
+                CheckColissions();
+                for (int i = 0; i < TOTALSHIPS; i++)
                 {
-                    action.Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
+                    octree.ObjectChanged(ships[i]);
+                    ships[i].drawn = false;
                 }
-                //inputHandler.HandleInput().Execute(ships[0], gameTime);
-            }
-            //Camera Input
-            if (inputHandler.HandleCameraInput() != null)
-            {
-                inputHandler.HandleCameraInput().Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
-            }
 
-            ExplosionParticlesSystem.Update(random, gameTime);
-
-
-            /*
-            if(inputHandler.usedGameplayCommands.Count > 0)
-            {
-                tempCommands.Clear();
-                foreach (Command action in inputHandler.usedGameplayCommands)
+                //ALERTA MARTELO
+                /*if(Keyboard.GetState().IsKeyDown(Keys.D1))
                 {
-                    tempCommands.Add(action);
-                    //action.Execute(ships[1], gameTime, inputHandler.usedCommands);
+                    shipUnderControl = ControlledShip.Ship0;
                 }
-                foreach (Command usedReplay in tempCommands)
+                if (Keyboard.GetState().IsKeyDown(Keys.D2))
                 {
-                    inputHandler.usedGameplayCommands.Remove(usedReplay);
+                    shipUnderControl = ControlledShip.Ship1;
                 }
-            }*/
-            for (int i = 0; i < TOTALSHIPS; i++)
-            {
-                if (i != (int)shipUnderControl)
+                if (Keyboard.GetState().IsKeyDown(Keys.D3))
+                {
+                    shipUnderControl = ControlledShip.Ship2;
+                }*/
+
+                //not being used yet
+                /*for (int i = 0; i < TOTALSHIPS; i++)
                 {
                     ships[i].UpdateShip(gameTime);
+                }*/
+
+
+                //System Input
+                if (inputHandler.HandleSystemInput() != null)
+                {
+                    inputHandler.HandleSystemInput().Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
                 }
+                //Gameplay Input
+                if (inputHandler.HandleGameplayInput() != null)
+                {
+                    foreach (Command action in inputHandler.HandleGameplayInput())
+                    {
+                        action.Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
+                    }
+                    //inputHandler.HandleInput().Execute(ships[0], gameTime);
+                }
+                //Camera Input
+                if (inputHandler.HandleCameraInput() != null)
+                {
+                    inputHandler.HandleCameraInput().Execute(cam, ships, ships[(int)shipUnderControl], gameTime, inputHandler.usedGameplayCommands, resourceManager);
+                }
+
+                ExplosionParticlesSystem.Update(random, gameTime);
+
+                /*
+                if(inputHandler.usedGameplayCommands.Count > 0)
+                {
+                    tempCommands.Clear();
+                    foreach (Command action in inputHandler.usedGameplayCommands)
+                    {
+                        tempCommands.Add(action);
+                        //action.Execute(ships[1], gameTime, inputHandler.usedCommands);
+                    }
+                    foreach (Command usedReplay in tempCommands)
+                    {
+                        inputHandler.usedGameplayCommands.Remove(usedReplay);
+                    }
+                }*/
+                for (int i = 0; i < TOTALSHIPS; i++)
+                {
+                    if (i != (int)shipUnderControl)
+                    {
+                        ships[i].UpdateShip(gameTime);
+                    }
+                }
+                ConsoleWriter.Instance.Update();
+                ExplosionCaller.Instance.Update();
+                ScoreController.Instance.Update();
             }
-            ConsoleWriter.Instance.Update();
-            ExplosionCaller.Instance.Update();
             base.Update(gameTime);
         }
 
@@ -243,8 +266,34 @@ namespace MonogameFirstTry
             base.Draw(gameTime);
         }
 
-
-
+        public void RoundTime(GameTime gameTime)
+        {
+            if(currentGameState == GameState.Ingame)
+            {
+                roundTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if(roundTimer >= Settings.TotalRoundTime)
+                {
+                    currentGameState = GameState.TimeIsOver;
+                    roundTimer = 0f;
+                }
+            }
+            if(currentGameState == GameState.TimeIsOver)
+            {
+                //show score
+                //update maxscore
+                if (currentScore > maxScore)
+                {
+                    maxScore = currentScore;
+                }
+                //wait x seconds
+                //start game again
+            }
+        }
+        public static void UpdateScore()
+        {
+            currentScore++;
+            Console.WriteLine(currentScore);
+        }
         public void CheckColissions()
         {
             for (int i = 0; i < TOTALSHIPS; i++)

@@ -10,5 +10,6 @@ namespace MonogameFirstTry
     {
         Console,
         ParticleEffect,
+        UpdateScore,
     }
 }

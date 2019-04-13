@@ -60,5 +60,12 @@ namespace MonogameFirstTry
             this.numberOfParticles = numberOfParticles;
         }
 
+        /// <summary>
+        /// Message constructor for UpdateScore
+        /// </summary>
+        public Message(MessageType messageType)
+        {
+            this.messageType = messageType;
+        }
     }
 }

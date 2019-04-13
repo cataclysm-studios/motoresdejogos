@@ -15,7 +15,7 @@ namespace MonogameFirstTry
         {
             ship.StrafeLeft(gameTime);
             executeDebugMessage.MessageText = ship.ToString() + " executed Strafe Left";
-            MessageBus.Instance.AddMessage(executeDebugMessage);
+            //MessageBus.Instance.AddMessage(executeDebugMessage);
         }
     }
 }

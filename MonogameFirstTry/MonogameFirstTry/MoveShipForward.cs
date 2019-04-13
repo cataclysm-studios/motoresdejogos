@@ -15,7 +15,7 @@ namespace MonogameFirstTry
         {
             ship.MoveForward(gameTime);
             executeDebugMessage.MessageText = ship.ToString() + " executed move forward";
-            MessageBus.Instance.AddMessage(executeDebugMessage);
+            //MessageBus.Instance.AddMessage(executeDebugMessage);
         }
     }
 }

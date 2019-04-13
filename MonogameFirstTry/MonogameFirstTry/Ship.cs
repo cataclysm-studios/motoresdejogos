@@ -67,8 +67,13 @@ namespace MonogameFirstTry
             if (boundingSphere.Intersects(otherShip.boundingSphere))
             {
                 debugMessage.MessageText = "colidiu com a nave " + otherShip.name;
+                
                 MessageBus.Instance.AddMessage(new Message(MessageType.ParticleEffect, otherShip.GetPosition(),100));
                 MessageBus.Instance.AddMessage(debugMessage);
+                MessageBus.Instance.AddMessage(new Message(MessageType.UpdateScore));
+
+                otherShip.SetPosition(new Vector3(Settings.SuggestedEnemyStartingPosition.X + Dice.RollDice(-280, 280), 0, Settings.SuggestedEnemyStartingPosition.Z + Dice.RollDice(-100, 0)));
+                otherShip.SetRotation(Settings.EnemyRotationFactor);
                 return true;
             }
             return false;
@@ -151,16 +156,24 @@ namespace MonogameFirstTry
         {
             position += world.Forward * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+            if (position.Z <= Settings.MinZPlayer)
+            {
+                position.Z = Settings.MinZPlayer;
+            }
             positionMessage.MessageText = world.Translation.ToString();
-            MessageBus.Instance.AddMessage(positionMessage);
+            //MessageBus.Instance.AddMessage(positionMessage);
             boundingSphere.Center = position;
         }
         public void MoveBackward(GameTime gameTime)
         {
             position -= world.Forward * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+            if (position.Z >= Settings.MaxZPlayer)
+            {
+                position.Z = Settings.MaxZPlayer;
+            }
             positionMessage.MessageText = world.Translation.ToString();
-            MessageBus.Instance.AddMessage(positionMessage);
+            //MessageBus.Instance.AddMessage(positionMessage);
             boundingSphere.Center = position;
         }
         public void RotateRight(GameTime gameTime)
@@ -181,16 +194,24 @@ namespace MonogameFirstTry
         {
             position += world.Left * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+            if (position.X <= Settings.MinXPlayer)
+            {
+                position.X = Settings.MinXPlayer;
+            }
             positionMessage.MessageText = world.Translation.ToString();
-            MessageBus.Instance.AddMessage(positionMessage);
+            //MessageBus.Instance.AddMessage(positionMessage);
             boundingSphere.Center = position;
         }
         public void StrafeRight(GameTime gameTime)
         {
             position += world.Right * Settings.SuggestedPlayerMovementSpeedFactor * gameTime.ElapsedGameTime.Milliseconds;
             world = Matrix.CreateRotationY(rotationY) * Matrix.CreateTranslation(position);
+            if (position.X >= Settings.MaxXPlayer)
+            {
+                position.X = Settings.MaxXPlayer;
+            }
             positionMessage.MessageText = world.Translation.ToString();
-            MessageBus.Instance.AddMessage(positionMessage);
+            //MessageBus.Instance.AddMessage(positionMessage);
             boundingSphere.Center = position;
         }
         /*public void ReplayActions(GameTime gameTime, List<Command> commands)

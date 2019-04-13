@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace MonogameFirstTry
 {
-    public class ExplosionCaller
+    class ScoreController
     {
         #region Singleton
-        private static ExplosionCaller _explosionCaller;
-        public static ExplosionCaller Instance
+        private static ScoreController _scoreController;
+        public static ScoreController Instance
         {
             get
             {
-                if (_explosionCaller == null)
+                if (_scoreController == null)
                 {
-                    _explosionCaller = new ExplosionCaller();
+                    _scoreController = new ScoreController();
                 }
-                return _explosionCaller;
+                return _scoreController;
             }
         }
         #endregion
@@ -43,17 +42,17 @@ namespace MonogameFirstTry
             messages.Add(message);
         }
 
-        public void Explode(Message message)
+        public void UpdateScore(Message message)
         {
-            ExplosionParticlesSystem.InserirExplosao(message.MessagePosition, message.NumberOfParticles, 1, 1, new Vector3(1, 1, 1));
+            Game1.UpdateScore();
         }
 
         public void Update()
         {
-            messages = MessageBus.GetMessagesOfType(MessageType.ParticleEffect);
+            messages = MessageBus.GetMessagesOfType(MessageType.UpdateScore);
             foreach (Message message in messages)
             {
-                Explode(message);
+                UpdateScore(message);
             }
         }
 

@@ -55,7 +55,7 @@ namespace MonogameFirstTry
         //Camera Input
         public Command HandleCameraInput()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.NumPad8))
+            /*if (Keyboard.GetState().IsKeyDown(Keys.NumPad8))
             {
                 return buttonZoomIn;
             }
@@ -78,7 +78,7 @@ namespace MonogameFirstTry
             if (Keyboard.GetState().IsKeyDown(Keys.NumPad3))
             {
                 return buttonCamDown;
-            }
+            }*/
             return null;
         }
         //Gameplay Input
@@ -103,7 +103,7 @@ namespace MonogameFirstTry
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 inputDebugMessage.MessageText = "W";
-                MessageBus.Instance.AddMessage(inputDebugMessage);
+                //MessageBus.Instance.AddMessage(inputDebugMessage);
                 gameplayCommands.Add(buttonW);
                 usedGameplayCommands.Add(buttonW);
                 //return buttonW;
@@ -111,7 +111,7 @@ namespace MonogameFirstTry
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 inputDebugMessage.MessageText = "A";
-                MessageBus.Instance.AddMessage(inputDebugMessage);
+                //MessageBus.Instance.AddMessage(inputDebugMessage);
                 gameplayCommands.Add(buttonA);
                 usedGameplayCommands.Add(buttonA);
                 //return buttonA;
@@ -119,7 +119,7 @@ namespace MonogameFirstTry
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 inputDebugMessage.MessageText = "S";
-                MessageBus.Instance.AddMessage(inputDebugMessage);
+                //MessageBus.Instance.AddMessage(inputDebugMessage);
                 gameplayCommands.Add(buttonS);
                 usedGameplayCommands.Add(buttonS);
                 //return buttonS;
@@ -127,7 +127,7 @@ namespace MonogameFirstTry
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 inputDebugMessage.MessageText = "D";
-                MessageBus.Instance.AddMessage(inputDebugMessage);
+                //MessageBus.Instance.AddMessage(inputDebugMessage);
                 gameplayCommands.Add(buttonD);
                 usedGameplayCommands.Add(buttonD);
                 //return buttonD;

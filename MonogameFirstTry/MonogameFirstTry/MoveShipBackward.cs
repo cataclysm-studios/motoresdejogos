@@ -15,7 +15,7 @@ namespace MonogameFirstTry
         {
             ship.MoveBackward(gameTime);
             executeDebugMessage.MessageText = ship.ToString() + " executed move Backwards";
-            MessageBus.Instance.AddMessage(executeDebugMessage);
+            //MessageBus.Instance.AddMessage(executeDebugMessage);
         }
     }
 }
